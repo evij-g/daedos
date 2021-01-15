@@ -1,0 +1,340 @@
+:root {
+    --darkgrey: 102, 102, 102;
+    --lightgrey: 149, 149, 149;
+    --lightgrey-light: rgba(var(--lightgrey), 0.7);
+}
+
+@font-face {
+    font-family: 'Press Start 2P';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('PressStart2P-Regular.woff2') format('woff2'), url('PressStart2P-Regular.woff') format('woff');
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+hidden,
+.hidden {
+    display: none;
+}
+
+body#daedos-wrapper {
+    font-family: 'Press Start 2P';
+    background-color: rgb(var(--darkgrey));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+#daedos-wrapper>* {
+    align-self: center;
+}
+
+#daedos-header {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#daedos-wrapper * h2,
+version {
+    font-family: 'Press Start 2P';
+    padding: 10px;
+}
+
+#daedos-wrapper * h2 {
+    font-size: 48px;
+    margin: 0;
+    text-shadow: 5px 5px rgb(var(--lightgrey));
+    border-bottom: 5px solid rgb(var(--lightgrey));
+}
+
+#daedos-wrapper * h2,
+#daedos-wrapper * h3 {
+    text-align: center;
+}
+
+version {
+    font-size: 12px;
+    color: rgb(var(--lightgrey));
+}
+
+#daedos-wrapper * a,
+copyright {
+    color: rgb(var(--lightgrey));
+    font-size: 16px;
+}
+
+#daedos-wrapper * a:hover {
+    color: white;
+}
+
+canvas {
+    border: 1px solid black;
+    background: black;
+    /* box-shadow: black 10px 10px; */
+    margin: 30px 10px 70px 10px;
+    height: 100%;
+    max-height: 80vh;
+    max-width: 80vw;
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -o-crisp-edges;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+#daedos-menu {
+    position: fixed;
+    border: 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    transition: 180ms all ease-in-out;
+    background-color: rgb(var(--lightgrey));
+    opacity: .8;
+    overflow-y: scroll;
+    max-height: 80vh;
+    top: calc(100vh - 70px);
+}
+
+#daedos-menu:hover {
+    opacity: .9;
+}
+
+#daedos-menu.showMenu {
+    top: 210px;
+    bottom: 20px;
+}
+
+#console {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#modifiers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.size {
+    padding-bottom: 30px;
+}
+
+#daedos-menu * button {
+    font-family: 'Press Start 2P';
+    background-color: rgb(var(--darkgrey));
+    color: white;
+    border: none;
+    padding: 10px;
+    padding-bottom: 7px;
+    text-transform: uppercase;
+    font-size: 16px;
+    margin: 5px;
+    height: 40px;
+}
+
+#daedos-menu * button:hover,
+.blink {
+    box-shadow: white 2px 2px;
+    cursor: pointer;
+}
+
+#daedos-menu * button:active {
+    background-color: rgb(var(--lightgrey));
+    color: white;
+}
+
+#shareButton {
+    width: 43px;
+    padding: 20px;
+    background: url(share-icon.svg);
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: rgb(var(--darkgrey));
+}
+
+.radio__label_inner>svg {
+    width: 30px;
+    height: 30px;
+}
+
+.noWayOut {
+    color: darkred;
+    animation: blinker 1.2s infinite;
+}
+
+.blink {
+    animation: blinkingText 1.2s infinite;
+}
+
+@keyframes blinkingText {
+    0% {
+        color: white;
+    }
+    49% {
+        color: white;
+    }
+    60% {
+        color: rgb(var(--lightgrey));
+    }
+    99% {
+        color: rgb(var(--lightgrey));
+    }
+    100% {
+        color: white;
+    }
+}
+
+@keyframes blinker {
+    0% {}
+    49% {}
+    60% {
+        filter: brightness(.5);
+    }
+    99% {
+        filter: brightness(.5);
+    }
+    100% {}
+}
+
+
+/* RADIO BUTTONS */
+
+#obstacleForm {
+    width: 100%;
+    display: grid;
+    grid-gap: 20px;
+    justify-content: center;
+    grid-template-columns: auto auto auto;
+}
+
+#daedos-menu * label {
+    background-color: var(--lightgrey-light);
+}
+
+.radio {
+    display: grid;
+    grid-template-columns: -webkit-min-content auto;
+    grid-template-columns: min-content auto;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.5em;
+    font-size: 2.25rem;
+    color: rgb(var(--lightgrey));
+    padding: 10px;
+    width: min-content;
+}
+
+.radio:focus-within .radio__label {
+    /* transform: scale(1.05);*/
+    opacity: 1;
+}
+
+.radio__label,
+.radio__input {
+    width: min-content;
+}
+
+.radio__label {
+    line-height: 1;
+    font-size: 1.5em;
+    color: white;
+    display: flex;
+}
+
+.radio__label_inner {
+    display: flex;
+    align-items: center;
+}
+
+.radio__input {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.radio__input input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+.radio__input input:focus+.radio__control {
+    box-shadow: 0 0 0 0.05em white, 0 0 0.15em 0.1em white;
+    box-shadow: none;
+}
+
+.radio-gradient input:checked+.radio__control,
+.radio-before input:checked+.radio__control::before {
+    background: radial-gradient(white, white 50%);
+    background: none;
+    box-shadow: inset .5em .5em white;
+}
+
+.radio-before .radio__control {
+    display: grid;
+    place-items: center;
+}
+
+.radio-before input+.radio__control::before {
+    content: "";
+    width: 0.5em;
+    height: 0.5em;
+    box-shadow: inset 0.5em 0.5em white;
+    border-radius: 50%;
+    transition: 180ms transform ease-in-out;
+    transform: scale(0);
+}
+
+.radio-before input:checked+.radio__control::before {
+    transform: scale(1);
+}
+
+.radio__control {
+    display: block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    border: 2px solid white;
+    /*transform: translateY(-0.05em);*/
+}
+
+@media (max-width: 550px) {
+    #daedos-header {
+        margin-top: 0;
+    }
+    canvas {
+        width: 100%;
+        margin-bottom: 120px;
+    }
+    #daedos-menu {
+        width: 90vw;
+        top: calc(100vh - 120px);
+    }
+    #daedos-menu.showMenu {
+        /*transform: translateY(0%);*/
+    }
+    #console>button {
+        margin-left: 8px;
+        margin-right: 8px;
+        margin-bottom: 10px;
+    }
+    #obstacleForm {
+        grid-template-columns: auto auto;
+    }
+}
