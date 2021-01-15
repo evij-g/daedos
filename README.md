@@ -1,2 +1,2 @@
-# LABYR
-LABYR is a visual processor inspired by my handmade woodcuts. 
+# DAEDOS
+DAEDOS is a visual processor inspired by my handmade woodcuts. 
