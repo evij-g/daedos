@@ -104,6 +104,11 @@ canvas {
     -ms-interpolation-mode: nearest-neighbor;
 }
 
+.noWayOut {
+    color: darkred;
+    animation: blinker 1.2s infinite;
+}
+
 
 /*############## MENU ######################*/
 
@@ -115,9 +120,7 @@ canvas {
     transition: 180ms all ease-in-out;
     background-color: rgb(var(--lightgrey));
     opacity: .8;
-    height: 250px;
-    width: auto;
-    overflow-x: hidden;
+    width: 350px;
 }
 
 #daedos-menu h3 {
@@ -139,8 +142,15 @@ canvas {
     bottom: 20px;
 } */
 
-#console,
-#modifiers {
+#console {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 15px 30px;
+}
+
+#modifiers,
+.obj.select {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -148,8 +158,13 @@ canvas {
     margin-bottom: 20px;
 }
 
-.size {
-    padding-bottom: 30px;
+.obj,
+.canvas {
+    visibility: hidden;
+}
+
+.mod-active {
+    visibility: visible;
 }
 
 #daedos-menu * button {
@@ -229,11 +244,6 @@ button.blinkingBackground {
 .radio__label_inner>svg {
     width: 30px;
     height: 30px;
-}
-
-.noWayOut {
-    color: darkred;
-    animation: blinker 1.2s infinite;
 }
 
 .blink {

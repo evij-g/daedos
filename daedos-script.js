@@ -45,163 +45,12 @@ var frameCount = 0;
 var fps, fpsInterval, startTime, now, then, elapsed;
 
 let queryString;
+let initqueryString = "?width=500&height=420&scale=10&bgcolor=black&startx=1&starty=1&startdir=down&linecolor=white&obs=1&obsx=1&obsy=11&obswidth=4&obsheight=4&obscolor=white&obs=2&obsx=18&obsy=4&obswidth=5&obsheight=8&obscolor=white";
 
-// ######### URL HANDLING ####################################################################
 
-// The URL contains all the variables set to create a specific image.
-// If all values are communicated via the URL, the nice "LABYRs" can be conveniently "saved" and "shared".
 
-function getUrlParameter() {
-    //TEST-STRING
-    //queryString="?width=500&height=400&scale=10&bgcolor=white&startx=2&starty=1&startdir=down&linecolor=black&obs=1&obsx=5&obsy=6&obswidth=4&obsheight=4&obscolor=red&obs=2&obsx=30&obsy=26&obswidth=5&obsheight=8&obscolor=blue";
-    initqueryString =
-        "?width=500&height=420&scale=10&bgcolor=black&startx=1&starty=1&startdir=down&linecolor=white&obs=1&obsx=1&obsy=11&obswidth=4&obsheight=4&obscolor=white&obs=2&obsx=18&obsy=4&obswidth=5&obsheight=8&obscolor=white";
-    queryString = window.location.search;
 
-    console.log(queryString);
-    queryString != "" ? queryString : (queryString = initqueryString);
-    let urlParams = new URLSearchParams(queryString);
-    return urlParams;
-}
 
-function updateURL() {
-    let urlParams = new URLSearchParams(queryString);
-
-    let newURL = "";
-
-    urlParams.set("width", canvas.width);
-    urlParams.set("height", canvas.height);
-    urlParams.set("scale", scale);
-    urlParams.set("bgcolor", canvasBackgroundColor);
-
-    urlParams.set("startx", walker.startx);
-    urlParams.set("starty", walker.starty);
-    urlParams.set("linecolor", walker.color);
-    urlParams.set("startdir", walker.startdirection);
-
-    urlParams.delete("obs");
-    urlParams.delete("obsx");
-    urlParams.delete("obsy");
-    urlParams.delete("obswidth");
-    urlParams.delete("obsheight");
-    urlParams.delete("obscolor");
-
-    for (let i = 0; i < obstacleArray.length; i++) {
-        // extract the values from the array and push it into an seperate object
-
-        urlParams.append("obs", obstacleArray[i].obsIndex);
-        urlParams.append("obsx", obstacleArray[i].obsX);
-        urlParams.append("obsy", obstacleArray[i].obsY);
-        urlParams.append("obswidth", obstacleArray[i].obsWidth);
-        urlParams.append("obsheight", obstacleArray[i].obsHeight);
-        urlParams.append("obscolor", obstacleArray[i].obsColor);
-
-        console.log(urlParams.toString());
-    }
-
-    if (history.pushState) {
-        newurl =
-            window.location.protocol +
-            "//" +
-            window.location.host +
-            window.location.pathname +
-            "?" +
-            urlParams.toString();
-        window.history.replaceState({ path: newurl }, "", newurl);
-        //location.href=newurl;
-    }
-}
-
-function countURLparameter(parameter) {
-    entries = parameter.entries();
-    let counter = 0;
-    let paramsArray = [];
-
-    // Display the key/value pairs
-    for (var pair of parameter.entries()) {
-        paramsArray.push(pair[1]); //es werden nur die Werte in das Array geladen.
-        // console.log(pair[0]+ ', '+ pair[1]);
-        counter++;
-    }
-
-    createObstacleObjects(paramsArray);
-    return counter;
-}
-
-function setPropertiesFromURL() {
-    let parameter = getUrlParameter();
-    let parameterCounter = countURLparameter(parameter);
-
-    if (parameterCounter === 0) {
-        console.log("no URL parameters found. Use init values instead!");
-        initValues();
-        initCanvasArray();
-        initWalker();
-    } else {
-        console.log("URL parameters found!");
-
-        canvas.width = parameter.get("width");
-        canvas.height = parameter.get("height");
-        canvasBackgroundColor = parameter.get("bgcolor");
-
-        scale = parameter.get("scale");
-
-        canvasWidthMultiple = canvas.width / scale;
-        canvasHeightMultiple = canvas.height / scale;
-
-        walker = {
-            startx: parameter.get("startx"),
-            starty: parameter.get("starty"),
-            color: parameter.get("linecolor"),
-            startdirection: parameter.get("startdir"),
-        };
-
-        initCanvasArray();
-        initWalker();
-        setObstaclesIntoWalkerArray();
-    }
-}
-
-//################## OBSTACLES ################################################################################################
-
-function createObstacleObjects(array) {
-    array.splice(0, 8); // remove first 8 values of url parameter array.
-    let countedObstacles = array.length / 6; // determine the number of obstacles
-
-    for (let i = 0; i < countedObstacles; i++) {
-        // extract the values from the array and push it into an seperate object
-
-        let obs = {
-            obsIndex: array[0],
-            obsX: parseInt(array[1]),
-            obsY: parseInt(array[2]),
-            obsWidth: parseInt(array[3]),
-            obsHeight: parseInt(array[4]),
-            obsColor: array[5],
-        };
-
-        obstacleArray.push(obs);
-        array.splice(0, 6);
-    }
-}
-
-function setObstaclesIntoWalkerArray() {
-    for (let obs = 0; obs < obstacleArray.length; obs++) {
-        let object = obstacleArray[obs];
-
-        for (let y = 0; y < object.obsHeight; y++) {
-            for (let x = 0; x < object.obsWidth; x++) {
-                let fragment = {
-                    x: x + object.obsX,
-                    y: y + object.obsY,
-                    color: object.obsColor,
-                };
-                setWalker(fragment);
-            }
-        }
-    }
-    console.log("obstacles placed");
-}
 
 //######## INIT VALUES ##########################################################################################################
 
@@ -216,242 +65,19 @@ function initValues() {
     walker = { x: 2, y: 1, color: "#000000", direction: "down" };
 }
 
-//########### HANDLING BUTTON EVENTS ############################################################################################
-function buttonchecker(e) {
-    console.log(e + " clicked");
 
-    switch (e) {
-        case "startButton":
-            console.log("start animatiion");
 
-            startBtnValue = true;
 
-            document.getElementById("startButton").classList.add("blinkingBackground");
-            document.getElementById("pauseButton").classList.remove("blinkingBackground");
-            document.getElementById("daedos-menu").classList.remove("showMenu");
-            startAnimating();
 
-            break;
 
-        case "pauseButton":
-            console.log("pause animatiion");
 
-            startBtnValue = false;
 
-            document.getElementById("startButton").classList.remove("blinkingBackground");
-            document.getElementById("pauseButton").classList.add("blinkingBackground");
-            document.getElementById("daedos-menu").classList.remove("showMenu");
 
-            break;
 
-        case "resetButton":
-            console.log("stop and reset animatiion");
 
-            resetButtonActions();
-            document.getElementById("daedos-menu").classList.remove("showMenu");
 
-            break;
 
-        case "menuButton":
-            document.getElementById("daedos-menu").classList.toggle("showMenu");
-            break;
 
-        case "shareButton":
-            updateURL();
-            //document.getElementById("menu").classList.remove("showMenu");
-            const title = document.getElementById("daedos-title").textContent;
-            const url =
-                // (document.querySelector("link[rel=canonical]") &&
-                //    document.querySelector("link[rel=canonical]").href) ||
-                window.location.href;
-            if (navigator.share) {
-                navigator
-                    .share({
-                        //title: title,
-                        //text: "generating",
-                        url: url,
-                    })
-                    .then(() => {
-                        console.log("Thanks for sharing!");
-                    })
-                    .catch((err) => {
-                        console.log(`Couldn't share because of`, err.message);
-                    });
-            } else {
-                console.log("web share not supported");
-                popUpMessage();
-            }
-
-            break;
-    }
-}
-
-function resetButtonActions() {
-    startBtnValue = false;
-
-    document.getElementById("startButton").classList.remove("blinkingBackground");
-    document.getElementById("pauseButton").classList.remove("blinkingBackground");
-
-    heading.classList.remove("noWayOut");
-
-    noWay = false;
-
-    resetCanvas();
-}
-
-function popUpMessage() {
-    const title = document.getElementById("daedos-title").textContent;
-    const url =
-        // (document.querySelector("link[rel=canonical]") &&
-        //     document.querySelector("link[rel=canonical]").href) ||
-        window.location.href;
-
-    var dummy = document.createElement("input"),
-        text = window.location.href;
-    document.body.appendChild(dummy);
-    dummy.value = text;
-    dummy.select();
-    document.execCommand("copy");
-    document.body.removeChild(dummy);
-    alert("Link copied please open your messanger and paste to send");
-}
-
-function changeSelectedObstacle(button) {
-    console.log("selected obstacle: " + selectedObstacle);
-    //console.log(obstacleArray[0]);
-    console.log(button);
-
-    switch (button) {
-        case "addObs":
-            let obsWidth = Math.trunc(canvasWidthMultiple * (10 / 100)); // 5%
-            let obsHeight = Math.trunc(canvasHeightMultiple * (10 / 100)); //5%
-
-            let basicObstacle = {
-                obsIndex: obstacleArray.length + 1,
-                obsX: canvasWidthMultiple - 2 * obsWidth,
-                obsY: canvasHeightMultiple - obsHeight,
-                obsWidth: obsWidth,
-                obsHeight: obsHeight,
-                obsColor: "white",
-            };
-            obstacleArray.push(basicObstacle);
-            reloadMenu();
-            console.log(obstacleArray);
-            break;
-        case "removeObs":
-            obstacleArray.splice(selectedObstacle, 1);
-            reloadMenu();
-
-            console.log(obstacleArray);
-
-            break;
-        case "upPosButton":
-            obstacleArray[selectedObstacle].obsY--;
-            break;
-        case "downPosButton":
-            obstacleArray[selectedObstacle].obsY++;
-            break;
-        case "leftPosButton":
-            obstacleArray[selectedObstacle].obsX--;
-            break;
-        case "rightPosButton":
-            obstacleArray[selectedObstacle].obsX++;
-            break;
-        case "sizeXPlusButton":
-            obstacleArray[selectedObstacle].obsWidth++;
-            break;
-        case "sizeXMinusButton":
-            obstacleArray[selectedObstacle].obsWidth--;
-            break;
-        case "sizeYPlusButton":
-            obstacleArray[selectedObstacle].obsHeight++;
-            break;
-        case "sizeYMinusButton":
-            obstacleArray[selectedObstacle].obsHeight--;
-            break;
-
-        case "canvasSizeXPlusButton":
-            canvasWidthMultiple++;
-            resetCanvas();
-            break;
-        case "canvasSizeXMinusButton":
-            canvasWidthMultiple--;
-            resetCanvas();
-            break;
-        case "canvasSizeYPlusButton":
-            canvasHeightMultiple++;
-            resetCanvas();
-            break;
-        case "canvasSizeYMinusButton":
-            canvasHeightMultiple--;
-            console.log("before");
-            console.table(walkerCanvasArray);
-
-            resetCanvas();
-            console.log("after");
-            console.table(walkerCanvasArray);
-            break;
-    }
-
-    updateURL();
-    resetButtonActions();
-}
-
-//############ GUI ##################################################################################
-
-function createObstaclesRadiobuttonsFromURL() {
-    // generate all radiobuttons and assign the color to the label from obstacleArray
-
-    for (let obs = 0; obs < obstacleArray.length; obs++) {
-        let object = obstacleArray[obs];
-        let color = object.obsColor;
-
-        let radioString =
-            `
-            <label class="radio radio-before">
-                <span class="radio__input">
-                <input type="radio" name="obstacle" value="` +
-            obs +
-            `">
-                <span class="radio__control"></span>
-                </span>
-                <span class="radio__label">
-                    <span class="radio__label_inner">
-                        <svg fill="` +
-            color +
-            `"><use href="#rect"></use></svg>
-                    </span>
-                </span>
-            </label>`;
-
-        // radioString="test";
-
-        document.getElementById("obstacleForm").innerHTML += radioString;
-    }
-
-    // add event listener to radiobuttons form
-
-    document.obstacleForm.addEventListener("change", getSelectedObstacleFromGUI);
-}
-
-function reloadMenu() {
-    document.getElementById("obstacleForm").innerHTML = "";
-    createObstaclesRadiobuttonsFromURL();
-}
-
-function getSelectedObstacleFromGUI() {
-    //
-
-    const radiobuttons = document.querySelectorAll('input[name="obstacle"]');
-
-    for (const button of radiobuttons) {
-        if (button.checked) {
-            selectedObstacle = button.value;
-            console.log(selectedObstacle);
-            break;
-        }
-    }
-}
 
 //############ ANIMATION ################################################################################
 // initialize the timer variables and start the animation
@@ -494,6 +120,19 @@ function animate() {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 //########### WALKER ###########################################################################################
 
 function drawWalker() {
@@ -519,7 +158,7 @@ function drawWalker() {
     //setCanvasToOpenGraphImage();
 }
 
-function setCanvasToOpenGraphImage() {
+/*function setCanvasToOpenGraphImage() {
 
     html2canvas(document.getElementById('daedos-canvas')).then(function(canvas) {
         document.body.appendChild(canvas);
@@ -535,7 +174,22 @@ function setCanvasToOpenGraphImage() {
     console.log(meta);
 
 
-}
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function initWalker() {
     walkerCanvasArray = canvasArray;
@@ -546,9 +200,22 @@ function initWalker() {
     setWalker(walker);
 }
 
+
+
+
+
+
+
 function setWalker(fragment) {
     walkerCanvasArray[fragment.y][fragment.x] = fragment.color;
 }
+
+
+
+
+
+
+
 
 function walk() {
     // console.log("walker direction: "+walker.direction);
@@ -557,6 +224,12 @@ function walk() {
     check(walker.direction);
     drawWalker();
 }
+
+
+
+
+
+
 
 function noWayOut() {
     switch (walker.direction) {
@@ -595,6 +268,19 @@ function noWayOut() {
 
     return noWay;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function checkWalkerMatrixValues() {
     let tx1;
@@ -718,6 +404,19 @@ function checkWalkerMatrixValues() {
     //console.table(walker);
     //console.table(walkerCanvasArray);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function check(direction) {
     checkWalkerMatrixValues();
@@ -878,6 +577,20 @@ function go(dir) {
     console.log("go: " + dir);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //########### GLOBAL COLOR COUNTER ##################
 
 function countToThree() {
@@ -889,6 +602,19 @@ function countToThree() {
     //console.log("counter: "+counter);
     return counter;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ############ CANVAS ARRAY ########### ####################################################################################
 function initCanvasArray() {
@@ -902,10 +628,21 @@ function initCanvasArray() {
     }
 }
 
+
+
+
+
+
 //set color in array field of given object variables (x,y,color)
 function setCanvasArray(e) {
     canvasArray[e.y][e.x] = e.color;
 }
+
+
+
+
+
+
 
 function drawCanvasArray() {
     for (var y = 0; y < canvasHeightMultiple; y++) {
@@ -924,6 +661,13 @@ function drawCanvasArray() {
     }
 }
 
+
+
+
+
+
+
+
 function resetCanvas() {
     let width = canvasWidthMultiple * scale;
     let height = canvasHeightMultiple * scale;
@@ -941,6 +685,19 @@ function resetCanvas() {
     drawWalker();
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 // ############ CREATE BORDER OF CANVAS ###############
 // AND SET ALL POSITIONS OF CANVAS ARRAY
 function createBorder() {
@@ -975,13 +732,31 @@ function createBorder() {
     }
 }
 
-// ############ DRAW CANVAS WITH BORDERS #####################################################################
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //############################################################################################################
 //############################################################################################################
+//############################################################################################################
+
 
 function initDAEDOS() {
     setPropertiesFromURL(); // use init values if no url parameter are attached
-
+    menuButtonHandler();
     //createBorder();
 
     drawCanvasArray();
