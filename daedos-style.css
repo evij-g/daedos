@@ -9,7 +9,7 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url('PressStart2P-Regular.woff2') format('woff2'), url('PressStart2P-Regular.woff') format('woff');
+    src: url('/PressStart2P-Regular.woff2') format('woff2'), url('/PressStart2P-Regular.woff') format('woff');
 }
 
 *,
@@ -40,6 +40,11 @@ body {
 
 #daedos-wrapper>* {
     align-self: center;
+}
+
+#fixed {
+    position: fixed;
+    z-index: 9;
 }
 
 #daedos-header {
@@ -89,13 +94,13 @@ copyright a {
 }
 
 canvas {
-    border: 1px solid black;
+    border: 1px solid white;
     background: black;
     /* box-shadow: black 10px 10px; */
-    margin: 30px 10px 70px 10px;
-    height: 100%;
+    margin: 20px;
+    /* height: 100%; */
     max-height: 80vh;
-    max-width: 80vw;
+    max-width: 73vw;
     image-rendering: optimizeSpeed;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
@@ -107,6 +112,7 @@ canvas {
 .noWayOut {
     color: darkred;
     animation: blinker 1.2s infinite;
+    box-shadow: 5px 5px darkred, -5px -5px darkred;
 }
 
 
@@ -114,8 +120,6 @@ canvas {
 
 #daedos-menu {
     border: 0;
-    margin-left: auto;
-    margin-right: auto;
     padding: 10px;
     transition: 180ms all ease-in-out;
     background-color: rgb(var(--lightgrey));
@@ -125,11 +129,11 @@ canvas {
 
 #daedos-menu h3 {
     color: white;
-    font-size: 14pt;
-    flex-grow: 1;
+    font-size: 12pt;
     width: 100%;
     background-color: rgb(var(--darkgrey));
     margin-top: 30px;
+    line-height: 1.8;
 }
 
 #daedos-menu:hover {
@@ -149,22 +153,40 @@ canvas {
     gap: 15px 30px;
 }
 
-#modifiers,
-.obj.select {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 20px;
+#modifiers {
+    display: grid;
+    overflow: hidden;
+    grid-template-areas: "visible hidden hidden hidden";
 }
 
-.obj,
-.canvas {
+#modifiers>div {
+    min-width: 330px;
     visibility: hidden;
+    margin-bottom: 30px;
 }
 
-.mod-active {
+#modifiers>div.mod-active {
     visibility: visible;
+    opacity: 1;
+    grid-area: visible;
+}
+
+.cross {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.cross>div:nth-child(5) {
+    background-color: white;
+}
+
+#canvasSize>.cross>div:nth-child(5) {
+    background-color: black;
+}
+
+.obj.add-remove {
+    display: flex;
+    justify-content: center;
 }
 
 #daedos-menu * button {
@@ -184,12 +206,11 @@ canvas {
     min-width: 45px;
     min-height: 45px;
     padding: 20px;
+    cursor: pointer;
 }
 
-#daedos-menu * button:hover,
-.blink {
+#daedos-menu * button:hover {
     box-shadow: white 2px 2px;
-    cursor: pointer;
 }
 
 #daedos-menu * button:active {
@@ -246,84 +267,40 @@ button.blinkingBackground {
     height: 30px;
 }
 
-.blink {
-    animation: blinkingText 1.2s infinite;
-}
-
-.blinkingBackground {
-    animation: blinkingBackground 1.2s infinite;
-}
-
-@keyframes blinkingBackground {
-    0% {
-        /* background-color: rgb(var(--darkgrey)); */
-    }
-    49% {
-        /* background-color: rgb(var(--darkgrey)); */
-    }
-    50% {
-        /* background-color: var(--lightgrey-light);
-        filter: invert(1); */
-        filter: brightness(50%);
-    }
-    100% {
-        /* background-color: var(--lightgrey-light); */
-        /* filter: invert(1); */
-    }
-}
-
-@keyframes blinkingText {
-    0% {
-        color: white;
-    }
-    49% {
-        color: white;
-    }
-    60% {
-        color: rgb(var(--lightgrey));
-    }
-    99% {
-        color: rgb(var(--lightgrey));
-    }
-    100% {
-        color: white;
-    }
-}
-
-@keyframes blinker {
-    0% {}
-    49% {}
-    60% {
-        filter: brightness(.5);
-    }
-    99% {
-        filter: brightness(.5);
-    }
-    100% {}
-}
-
 
 /* RADIO BUTTONS */
 
 #obstacleForm {
-    width: 100%;
     display: grid;
     grid-gap: 20px;
     justify-content: center;
     grid-template-columns: auto auto auto;
+    padding: 10px;
 }
 
-#daedos-menu * label {
-    background-color: var(--lightgrey-light);
+label.radio {
+    background: rgb(var(--darkgrey));
+    /* padding: 5px; */
 }
 
-.radio {
+
+/* .radio {
     display: grid;
     grid-template-columns: -webkit-min-content auto;
     grid-template-columns: min-content auto;
     grid-template-columns: 1fr 1fr;
     grid-gap: 0.5em;
     font-size: 2.25rem;
+    color: rgb(var(--lightgrey));
+    padding: 10px;
+    width: min-content;
+} */
+
+.radio {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.3em;
+    font-size: 2rem;
     color: rgb(var(--lightgrey));
     padding: 10px;
     width: min-content;
@@ -372,7 +349,7 @@ button.blinkingBackground {
 .radio-gradient input:checked+.radio__control,
 .radio-before input:checked+.radio__control::before {
     background: radial-gradient(white, white 50%);
-    background: none;
+    /* background: none; */
     box-shadow: inset .5em .5em white;
 }
 
@@ -404,7 +381,7 @@ button.blinkingBackground {
     /*transform: translateY(-0.05em);*/
 }
 
-@media (max-width: 550px) {
+@media (max-width: 650px) {
     #daedos-header {
         margin-top: 0;
     }
@@ -412,17 +389,13 @@ button.blinkingBackground {
         font-size: 30pt;
     }
     canvas {
-        width: 100%;
-        margin-bottom: 120px;
+        /* width: 100%; */
+        margin: 20px;
+        max-width: 73vw;
+        /* margin-bottom: 120px; */
     }
-    #daedos-menu {
-        width: 80vw;
-        top: calc(100vh - 130px);
-        left: 0;
-        right: 0;
-    }
-    #daedos-menu.showMenu {
-        /*transform: translateY(0%);*/
+    #console {
+        grid-gap: 15px;
     }
     #console>button {
         margin-left: 8px;
@@ -430,6 +403,68 @@ button.blinkingBackground {
         margin-bottom: 10px;
     }
     #obstacleForm {
-        grid-template-columns: auto auto;
+        grid-template-columns: auto auto auto;
+    }
+}
+
+.blink {
+    animation: blinkingText 6s steps(1, end) infinite;
+}
+
+.blinkingBackground {
+    animation: blinkingBackground 6s steps(1, end) infinite;
+}
+
+.blinkBoxshadow {
+    animation: animatedBoxshadow 6s steps(1, end) infinite;
+}
+
+@keyframes blinkingBackground {
+    0%,
+    50%,
+    100% {
+        background-color: rgb(var(--darkgrey));
+    }
+    25%,
+    75% {
+        background-color: var(--lightgrey-light);
+    }
+}
+
+@keyframes blinkingText {
+    0%,
+    50%,
+    100% {
+        color: white;
+    }
+    25%,
+    75% {
+        mix-blend-mode: difference;
+        --darker: calc(rgb(var(--lightgrey)) - 10%);
+        color: var(--darker);
+    }
+}
+
+@keyframes blinker {
+    0% {}
+    49% {}
+    60% {
+        filter: brightness(.5);
+    }
+    99% {
+        filter: brightness(.5);
+    }
+    100% {}
+}
+
+@keyframes animatedBoxshadow {
+    0%,
+    50%,
+    100% {
+        box-shadow: 0px 0px 0 5px darkred;
+    }
+    25%,
+    75% {
+        box-shadow: none;
     }
 }

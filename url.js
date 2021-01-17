@@ -8,7 +8,7 @@ function getUrlParameter() {
     //queryString="?width=500&height=400&scale=10&bgcolor=white&startx=2&starty=1&startdir=down&linecolor=black&obs=1&obsx=5&obsy=6&obswidth=4&obsheight=4&obscolor=red&obs=2&obsx=30&obsy=26&obswidth=5&obsheight=8&obscolor=blue";
     queryString = window.location.search;
 
-    console.log(queryString);
+    //console.log(queryString);
     queryString != "" ? queryString : (queryString = initqueryString);
     let urlParams = new URLSearchParams(queryString);
     return urlParams;
@@ -190,7 +190,7 @@ function updateURL() {
         urlParams.append("obsheight", obstacleArray[i].obsHeight);
         urlParams.append("obscolor", obstacleArray[i].obsColor);
 
-        console.log(urlParams.toString());
+
     }
 
     if (history.pushState) {
@@ -204,4 +204,6 @@ function updateURL() {
         window.history.replaceState({ path: newurl }, "", newurl);
         //location.href=newurl;
     }
+
+    console.log("url updated");
 }

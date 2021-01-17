@@ -193,7 +193,7 @@ function drawWalker() {
 
 function initWalker() {
     walkerCanvasArray = canvasArray;
-    console.log(walker);
+    console.log("init walker");
     walker.x = parseInt(walker.startx);
     walker.y = parseInt(walker.starty);
     walker.direction = walker.startdirection;
@@ -262,8 +262,10 @@ function noWayOut() {
     noWay
         ?
         (console.log("NO WAY OUT"),
-            heading.classList.add("noWayOut"),
-            document.getElementById("startButton").classList.remove("blink")) :
+            heading.classList.add("blink"),
+            //document.getElementById("daedos-canvas").classList.add("blinkBoxshadow"),
+            pausebtn = document.getElementById("pauseButton"),
+            pausebtn.classList.add("blinkBoxshadow"), document.getElementById("startButton").classList.remove("blink")) :
         noWay;
 
     return noWay;
@@ -671,6 +673,7 @@ function drawCanvasArray() {
 function resetCanvas() {
     let width = canvasWidthMultiple * scale;
     let height = canvasHeightMultiple * scale;
+    calculateMarginForMenu();
 
     initCanvasArray();
     //createBorder();
@@ -756,7 +759,8 @@ function createBorder() {
 
 function initDAEDOS() {
     setPropertiesFromURL(); // use init values if no url parameter are attached
-    menuButtonHandler();
+    initButtonHandlers();
+    calculateMarginForMenu();
     //createBorder();
 
     drawCanvasArray();

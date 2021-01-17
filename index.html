@@ -36,14 +36,14 @@
 
     <!-- ################################################################################### -->
     <div id="daedos-wrapper">
-
-        <div id="daedos-header">
-            <h2 id="daedos-title">DAEDOS</h2>
-            <version>V.1.0.1</version>
-            <copyright><a href="https://evij.de">EVIJ</a> © 2020</copyright>
+        <div id="fixed">
+            <div id="daedos-header">
+                <h2 id="daedos-title">DAEDOS</h2>
+                <version>V.1.0.1</version>
+                <copyright><a href="https://evij.de">EVIJ</a> © 2020</copyright>
+            </div>
+            <canvas id="daedos-canvas" width="150" height="150"></canvas>
         </div>
-        <canvas id="daedos-canvas" width="150" height="150"></canvas>
-
         <div id="daedos-menu">
             <div id="console">
 
@@ -66,11 +66,11 @@
 
 
 
-                <div class="obj select">
+                <div id="selectObj" class="select mod-active">
                     <h3>select object</h3>
                     <div class="obj add-remove">
                         <button id="addObs">+</button>
-                        <button id="removeObs">-</button>;
+                        <button id="removeObs">-</button>
                     </div>
 
                     <!-- generate radio buttons based on URL parameters-->
@@ -83,31 +83,56 @@
 
 
 
-                <div class="obj position">
+                <div id="positionObj" class="obj position">
                     <h3>change object position</h3>
-                    <button id="upPosButton">▲</button>
-                    <button id="downPosButton">▼</button>
-                    <button id="leftPosButton">◀</button>
-                    <button id="rightPosButton">▶</button>
+                    <div class="cross">
+                        <div></div>
+                        <button id="upPosButton">▲</button>
+                        <div></div>
 
+                        <button id="leftPosButton">◀</button>
+                        <div></div>
+                        <button id="rightPosButton">▶</button>
+
+                        <div></div>
+                        <button id="downPosButton">▼</button>
+                        <div></div>
+                    </div>
                 </div>
 
-                <div class="obj size">
+                <div id="sizeObj" class="obj size">
                     <h3>change object size</h3>
+                    <div class="cross">
+                        <div></div>
+                        <button id="sizeYMinusButton">Y-</button>
+                        <div></div>
 
-                    <button id="sizeXMinusButton">X-</button>
-                    <button id="sizeXPlusButton">X+</button>
-                    <button id="sizeYMinusButton">Y-</button>
-                    <button id="sizeYPlusButton">Y+</button>
+                        <button id="sizeXMinusButton">X-</button>
+                        <div></div>
+                        <button id="sizeXPlusButton">X+</button>
+
+                        <div></div>
+                        <button id="sizeYPlusButton">Y+</button>
+                        <div></div>
+                    </div>
                 </div>
 
-                <div class="canv size">
+                <div id="canvasSize" class="canv size">
                     <h3>change canvas size</h3>
+                    <div class="cross">
+                        <div></div>
+                        <button id="canvasSizeYMinusButton">Y-</button>
+                        <div></div>
 
-                    <button id="canvasSizeXMinusButton">X-</button>
-                    <button id="canvasSizeXPlusButton">X+</button>
-                    <button id="canvasSizeYMinusButton">Y-</button>
-                    <button id="canvasSizeYPlusButton">Y+</button>
+                        <button id="canvasSizeXMinusButton">X-</button>
+                        <div></div>
+                        <button id="canvasSizeXPlusButton">X+</button>
+
+
+                        <div></div>
+                        <button id="canvasSizeYPlusButton">Y+</button>
+                        <div></div>
+                    </div>
                 </div>
             </div>
         </div>
