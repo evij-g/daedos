@@ -104,8 +104,10 @@ canvas {
     -ms-interpolation-mode: nearest-neighbor;
 }
 
+
+/*############## MENU ######################*/
+
 #daedos-menu {
-    position: fixed;
     border: 0;
     margin-left: auto;
     margin-right: auto;
@@ -113,10 +115,9 @@ canvas {
     transition: 180ms all ease-in-out;
     background-color: rgb(var(--lightgrey));
     opacity: .8;
-    overflow-y: scroll;
-    max-height: 80vh;
-    top: calc(100vh - 70px);
-    z-index: 2000;
+    height: 250px;
+    width: auto;
+    overflow-x: hidden;
 }
 
 #daedos-menu h3 {
@@ -129,15 +130,17 @@ canvas {
 }
 
 #daedos-menu:hover {
-    opacity: .9;
+    opacity: 1;
 }
 
-#daedos-menu.showMenu {
+
+/* #daedos-menu.showMenu {
     top: 210px;
     bottom: 20px;
-}
+} */
 
-#console {
+#console,
+#modifiers {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -145,28 +148,27 @@ canvas {
     margin-bottom: 20px;
 }
 
-#modifiers {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .size {
     padding-bottom: 30px;
 }
 
 #daedos-menu * button {
-    font-family: 'Press Start 2P';
-    background-color: rgb(var(--darkgrey));
-    color: white;
     border: none;
-    /* padding: 10px;
-    padding-bottom: 7px; */
+    background-color: rgb(var(--darkgrey));
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-family: 'Press Start 2P';
+    color: black;
     text-transform: uppercase;
     font-size: 16px;
     margin: 5px;
     height: 45px;
     min-width: 45px;
+    line-height: .5;
+    min-width: 45px;
+    min-height: 45px;
+    padding: 20px;
 }
 
 #daedos-menu * button:hover,
@@ -181,16 +183,7 @@ canvas {
     color: white;
 }
 
-#console>button {
-    width: 43px;
-    padding: 20px;
-    background-size: 60%;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: rgb(var(--darkgrey));
-}
-
-#console>button.blinkingBackground {
+button.blinkingBackground {
     animation: blinkingBackground 1.2s infinite;
 }
 
@@ -212,6 +205,25 @@ canvas {
 
 #shareButton {
     background-image: url(icons/share.png);
+}
+
+
+/* modifiers */
+
+#selectObjButton {
+    background-image: url(icons/obj.png);
+}
+
+#moveObjButton {
+    background-image: url(icons/obj-pos.png);
+}
+
+#sizeObjButton {
+    background-image: url(icons/obj-size.png);
+}
+
+#sizeCanvasButton {
+    background-image: url(icons/canvas-size.png);
 }
 
 .radio__label_inner>svg {
