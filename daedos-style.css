@@ -23,7 +23,11 @@ hidden,
     display: none;
 }
 
-body#daedos-wrapper {
+body {
+    background-color: rgb(var(--darkgrey));
+}
+
+#daedos-wrapper {
     font-family: 'Press Start 2P';
     background-color: rgb(var(--darkgrey));
     display: flex;
@@ -46,16 +50,21 @@ body#daedos-wrapper {
 }
 
 #daedos-wrapper * h2,
-version {
+#daedos-wrapper * h3,
+version,
+copyright {
     font-family: 'Press Start 2P';
     padding: 10px;
 }
 
 #daedos-wrapper * h2 {
     font-size: 48px;
+    font-size: 45pt;
     margin: 0;
     text-shadow: 5px 5px rgb(var(--lightgrey));
     border-bottom: 5px solid rgb(var(--lightgrey));
+    font-style: italic;
+    color: white;
 }
 
 #daedos-wrapper * h2,
@@ -69,7 +78,8 @@ version {
 }
 
 #daedos-wrapper * a,
-copyright {
+copyright,
+copyright a {
     color: rgb(var(--lightgrey));
     font-size: 16px;
 }
@@ -106,6 +116,16 @@ canvas {
     overflow-y: scroll;
     max-height: 80vh;
     top: calc(100vh - 70px);
+    z-index: 2000;
+}
+
+#daedos-menu h3 {
+    color: white;
+    font-size: 14pt;
+    flex-grow: 1;
+    width: 100%;
+    background-color: rgb(var(--darkgrey));
+    margin-top: 30px;
 }
 
 #daedos-menu:hover {
@@ -122,6 +142,7 @@ canvas {
     align-items: center;
     flex-wrap: wrap;
     justify-content: center;
+    margin-bottom: 20px;
 }
 
 #modifiers {
@@ -139,12 +160,13 @@ canvas {
     background-color: rgb(var(--darkgrey));
     color: white;
     border: none;
-    padding: 10px;
-    padding-bottom: 7px;
+    /* padding: 10px;
+    padding-bottom: 7px; */
     text-transform: uppercase;
     font-size: 16px;
     margin: 5px;
-    height: 40px;
+    height: 45px;
+    min-width: 45px;
 }
 
 #daedos-menu * button:hover,
@@ -155,17 +177,41 @@ canvas {
 
 #daedos-menu * button:active {
     background-color: rgb(var(--lightgrey));
+    box-shadow: inset 2px 2px rgb(var(--darkgrey)), white 2px 2px;
     color: white;
 }
 
-#shareButton {
+#console>button {
     width: 43px;
     padding: 20px;
-    background: url(share-icon.svg);
     background-size: 60%;
     background-repeat: no-repeat;
     background-position: center;
     background-color: rgb(var(--darkgrey));
+}
+
+#console>button.blinkingBackground {
+    animation: blinkingBackground 1.2s infinite;
+}
+
+#startButton {
+    background-image: url(icons/play.png);
+}
+
+#pauseButton {
+    background-image: url(icons/pause.png);
+}
+
+#menuButton {
+    background-image: url(icons/menu.png);
+}
+
+#resetButton {
+    background-image: url(icons/reset.png);
+}
+
+#shareButton {
+    background-image: url(icons/share.png);
 }
 
 .radio__label_inner>svg {
@@ -180,6 +226,28 @@ canvas {
 
 .blink {
     animation: blinkingText 1.2s infinite;
+}
+
+.blinkingBackground {
+    animation: blinkingBackground 1.2s infinite;
+}
+
+@keyframes blinkingBackground {
+    0% {
+        /* background-color: rgb(var(--darkgrey)); */
+    }
+    49% {
+        /* background-color: rgb(var(--darkgrey)); */
+    }
+    50% {
+        /* background-color: var(--lightgrey-light);
+        filter: invert(1); */
+        filter: brightness(50%);
+    }
+    100% {
+        /* background-color: var(--lightgrey-light); */
+        /* filter: invert(1); */
+    }
 }
 
 @keyframes blinkingText {
@@ -318,13 +386,18 @@ canvas {
     #daedos-header {
         margin-top: 0;
     }
+    h2#daedos-title {
+        font-size: 30pt;
+    }
     canvas {
         width: 100%;
         margin-bottom: 120px;
     }
     #daedos-menu {
-        width: 90vw;
-        top: calc(100vh - 120px);
+        width: 80vw;
+        top: calc(100vh - 130px);
+        left: 0;
+        right: 0;
     }
     #daedos-menu.showMenu {
         /*transform: translateY(0%);*/

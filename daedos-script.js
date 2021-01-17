@@ -226,8 +226,8 @@ function buttonchecker(e) {
 
             startBtnValue = true;
 
-            document.getElementById("startButton").classList.add("blink");
-            document.getElementById("pauseButton").classList.remove("blink");
+            document.getElementById("startButton").classList.add("blinkingBackground");
+            document.getElementById("pauseButton").classList.remove("blinkingBackground");
             document.getElementById("daedos-menu").classList.remove("showMenu");
             startAnimating();
 
@@ -238,8 +238,8 @@ function buttonchecker(e) {
 
             startBtnValue = false;
 
-            document.getElementById("startButton").classList.remove("blink");
-            document.getElementById("pauseButton").classList.add("blink");
+            document.getElementById("startButton").classList.remove("blinkingBackground");
+            document.getElementById("pauseButton").classList.add("blinkingBackground");
             document.getElementById("daedos-menu").classList.remove("showMenu");
 
             break;
@@ -257,17 +257,18 @@ function buttonchecker(e) {
             break;
 
         case "shareButton":
+            updateURL();
             //document.getElementById("menu").classList.remove("showMenu");
             const title = document.getElementById("daedos-title").textContent;
             const url =
-                (document.querySelector("link[rel=canonical]") &&
-                    document.querySelector("link[rel=canonical]").href) ||
+                // (document.querySelector("link[rel=canonical]") &&
+                //    document.querySelector("link[rel=canonical]").href) ||
                 window.location.href;
             if (navigator.share) {
                 navigator
                     .share({
-                        title: title,
-                        text: "generating",
+                        //title: title,
+                        //text: "generating",
                         url: url,
                     })
                     .then(() => {
@@ -288,8 +289,8 @@ function buttonchecker(e) {
 function resetButtonActions() {
     startBtnValue = false;
 
-    document.getElementById("startButton").classList.remove("blink");
-    document.getElementById("pauseButton").classList.remove("blink");
+    document.getElementById("startButton").classList.remove("blinkingBackground");
+    document.getElementById("pauseButton").classList.remove("blinkingBackground");
 
     heading.classList.remove("noWayOut");
 
@@ -301,8 +302,8 @@ function resetButtonActions() {
 function popUpMessage() {
     const title = document.getElementById("daedos-title").textContent;
     const url =
-        (document.querySelector("link[rel=canonical]") &&
-            document.querySelector("link[rel=canonical]").href) ||
+        // (document.querySelector("link[rel=canonical]") &&
+        //     document.querySelector("link[rel=canonical]").href) ||
         window.location.href;
 
     var dummy = document.createElement("input"),

@@ -11,97 +11,111 @@
     <title>DAEDOS | EVIJ</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="daedos-style.css">
+    <link rel="stylesheet" href="daedos-style.css" />
 
-    <meta property="og:url" content="">
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://evij.de/wp-content/uploads/2021/01/daedos">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="DAEDOS | EVIJ">
     <meta property="og:description" content="DAEDUS is a visual processor inspired by my handmade woodcuts. ">
+    <meta property="og:image" content="https://evij.de/wp-content/uploads/2021/01/daedos/daedos-test.gif">
 
-    <meta property="og:image" content="https://evij.de/wp-content/uploads/2021/01/daedos/daedos-meta.gif">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="evij.de">
+    <meta property="twitter:url" content="https://evij.de/wp-content/uploads/2021/01/daedos">
+    <meta name="twitter:title" content="DAEDOS | EVIJ">
+    <meta name="twitter:description" content="DAEDUS is a visual processor inspired by my handmade woodcuts. ">
+    <meta name="twitter:image" content="https://evij.de/wp-content/uploads/2021/01/daedos/daedos-test.gif">
+
 </head>
 
-<body id="daedos-wrapper">
+<body>
 
 
-    <!--[if lt IE 7]>
-            <p>You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+    <!-- ################################################################################### -->
+    <div id="daedos-wrapper">
 
-    <div id="daedos-header">
-        <h2 id="daedos-title">DAEDOS</h2>
-        <version>V.0.9.9</version>
-        <copyright><a href="https://evij.de">EVIJ</a> © 2020</copyright>
-    </div>
-    <canvas id="daedos-canvas" width="150" height="150"></canvas>
-
-    <div id="daedos-menu">
-        <div id="console">
-
-            <button id="startButton" onclick="buttonchecker(this.id)">go</button>
-            <button id="pauseButton" onclick="buttonchecker(this.id)">pause</button>
-            <button id="menuButton" onclick="buttonchecker(this.id)">menu</button>
-            <button id="resetButton" onclick="buttonchecker(this.id)">reset</button>
-            <button id="shareButton" onclick="buttonchecker(this.id)"></button>
-
+        <div id="daedos-header">
+            <h2 id="daedos-title">DAEDOS</h2>
+            <version>V.1.0.1</version>
+            <copyright><a href="https://evij.de">EVIJ</a> © 2020</copyright>
         </div>
+        <canvas id="daedos-canvas" width="150" height="150"></canvas>
+
+        <div id="daedos-menu">
+            <div id="console">
+
+                <button id="startButton" onclick="buttonchecker(this.id)" name="start"></button>
+                <button id="pauseButton" onclick="buttonchecker(this.id)" name="pause"></button>
+                <button id="menuButton" onclick="buttonchecker(this.id)" name="menu"></button>
+                <button id="resetButton" onclick="buttonchecker(this.id)" name="reset"></button>
+                <button id="shareButton" onclick="buttonchecker(this.id)" name="share"></button>
+
+            </div>
 
 
 
-
-        <div id="modifiers">
             <h3>objects</h3>
-
-            <!-- generate radio buttons based on URL parameters-->
-            <form id="obstacleForm" name="obstacleForm">
+            <div id="modifiers">
 
 
-            </form>
+                <!-- generate radio buttons based on URL parameters-->
+                <form id="obstacleForm" name="obstacleForm">
 
-            <div class="add-remove">
-                <button id="addObs" onclick="changeSelectedObstacle(this.id)">+</button>
-                <button id="removeObs" onclick="changeSelectedObstacle(this.id)">-</button>
-            </div>
 
-            <div class=" obj position">
+                </form>
+
+                <div class="add-remove">
+                    <button id="addObs" onclick="changeSelectedObstacle(this.id)">+</button>
+                    <button id="removeObs" onclick="changeSelectedObstacle(this.id)">-</button>
+                </div>
                 <h3>position</h3>
-                <button id="upPosButton" onclick="changeSelectedObstacle(this.id)">▲</button>
-                <button id="downPosButton" onclick="changeSelectedObstacle(this.id)">▼</button>
-                <button id="leftPosButton" onclick="changeSelectedObstacle(this.id)">◀</button>
-                <button id="rightPosButton" onclick="changeSelectedObstacle(this.id)">▶</button>
+                <div class=" obj position">
 
-            </div>
-            <div class="obj size">
+                    <button id="upPosButton" onclick="changeSelectedObstacle(this.id)">▲</button>
+                    <button id="downPosButton" onclick="changeSelectedObstacle(this.id)">▼</button>
+                    <button id="leftPosButton" onclick="changeSelectedObstacle(this.id)">◀</button>
+                    <button id="rightPosButton" onclick="changeSelectedObstacle(this.id)">▶</button>
+
+                </div>
                 <h3>size</h3>
+                <div class="obj size">
 
-                <button id="sizeXMinusButton" onclick="changeSelectedObstacle(this.id)">X-</button>
-                <button id="sizeXPlusButton" onclick="changeSelectedObstacle(this.id)">X+</button>
-                <button id="sizeYMinusButton" onclick="changeSelectedObstacle(this.id)">Y-</button>
-                <button id="sizeYPlusButton" onclick="changeSelectedObstacle(this.id)">Y+</button>
-            </div>
 
-            <div class="size">
+                    <button id="sizeXMinusButton" onclick="changeSelectedObstacle(this.id)">X-</button>
+                    <button id="sizeXPlusButton" onclick="changeSelectedObstacle(this.id)">X+</button>
+                    <button id="sizeYMinusButton" onclick="changeSelectedObstacle(this.id)">Y-</button>
+                    <button id="sizeYPlusButton" onclick="changeSelectedObstacle(this.id)">Y+</button>
+                </div>
                 <h3>canvas size</h3>
+                <div class="size">
 
-                <button id="canvasSizeXMinusButton" onclick="changeSelectedObstacle(this.id)">X-</button>
-                <button id="canvasSizeXPlusButton" onclick="changeSelectedObstacle(this.id)">X+</button>
-                <button id="canvasSizeYMinusButton" onclick="changeSelectedObstacle(this.id)">Y-</button>
-                <button id="canvasSizeYPlusButton" onclick="changeSelectedObstacle(this.id)">Y+</button>
+
+                    <button id="canvasSizeXMinusButton" onclick="changeSelectedObstacle(this.id)">X-</button>
+                    <button id="canvasSizeXPlusButton" onclick="changeSelectedObstacle(this.id)">X+</button>
+                    <button id="canvasSizeYMinusButton" onclick="changeSelectedObstacle(this.id)">Y-</button>
+                    <button id="canvasSizeYPlusButton" onclick="changeSelectedObstacle(this.id)">Y+</button>
+                </div>
             </div>
         </div>
-    </div>
-    <hidden>
-        <svg width="30" height="30" xmlns:xlink="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <hidden>
+            <svg width="30" height="30" xmlns:xlink="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <rect id="rect" width="30" height="30"/>
               </svg>
+        </hidden>
 
 
-    </hidden>
-    <script type="text/javascript" src="daedos-script.js"></script>
+        <!-- ################################################################################### -->
+
+        <script type="text/javascript" src="daedos-script.js"></script>
 
 
-    <script type='text/javascript'>
-        initDAEDOS();
-    </script>
-
+        <script type='text/javascript'>
+            initDAEDOS();
+        </script>
+    </div>
 </body>
 
 </html>
