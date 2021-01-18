@@ -3,9 +3,13 @@ function calculateMarginForMenu() {
     //height += document.getElementById("daedos-canvas").offsetHeight;
     console.log(marginTop);
 
-    document.getElementById("daedos-menu").style.marginTop = marginTop + "px";
-
+    if (window.innerWidth < 650) {
+        document.getElementById("daedos-menu").style.marginTop = marginTop + 15 + "px";
+    }
 }
+
+
+window.onload = calculateMarginForMenu;
 window.onresize = calculateMarginForMenu;
 calculateMarginForMenu();
 
@@ -19,11 +23,22 @@ function initButtonHandlers() {
 
 function checkConsoleButtons() {
     const wrapper = document.getElementById("console");
+
+    let buttons = wrapper.getElementsByTagName("button");
+
+
     wrapper.addEventListener('click', (event) => {
         const isButton = event.target.nodeName === 'BUTTON';
         if (!isButton) {
             return;
         }
+
+
+        for (let item of buttons) {
+            item.classList.remove('active')
+        }
+
+        event.target.classList.toggle("active");
 
         console.dir("button clicked: " + event.target.id);
 
@@ -35,7 +50,7 @@ function checkConsoleButtons() {
 
                 document.getElementById("startButton").classList.add("blinkingBackground");
                 document.getElementById("pauseButton").classList.remove("blinkingBackground");
-                document.getElementById("daedos-menu").classList.remove("showMenu");
+
                 startAnimating();
 
                 break;
@@ -47,7 +62,7 @@ function checkConsoleButtons() {
 
                 document.getElementById("startButton").classList.remove("blinkingBackground");
                 document.getElementById("pauseButton").classList.add("blinkingBackground");
-                document.getElementById("daedos-menu").classList.remove("showMenu");
+
 
                 break;
 
@@ -55,39 +70,16 @@ function checkConsoleButtons() {
                 console.log("stop and reset animatiion");
 
                 resetButtonActions();
-                document.getElementById("daedos-menu").classList.remove("showMenu");
+
 
                 break;
 
-            case "menuButton":
-                document.getElementById("daedos-menu").classList.toggle("showMenu");
-                break;
+                // case "menuButton":
+                //     document.getElementById("daedos-menu").classList.toggle("showMenu");
+                //     break;
 
             case "shareButton":
-                updateURL();
-                //document.getElementById("menu").classList.remove("showMenu");
-                const title = document.getElementById("daedos-title").textContent;
-                const url =
-                    // (document.querySelector("link[rel=canonical]") &&
-                    //    document.querySelector("link[rel=canonical]").href) ||
-                    window.location.href;
-                if (navigator.share) {
-                    navigator
-                        .share({
-                            //title: title,
-                            //text: "generating",
-                            url: url,
-                        })
-                        .then(() => {
-                            console.log("Thanks for sharing!");
-                        })
-                        .catch((err) => {
-                            console.log(`Couldn't share because of`, err.message);
-                        });
-                } else {
-                    console.log("web share not supported");
-                    popUpMessage();
-                }
+                shareButtonActions();
 
                 break;
 
@@ -139,8 +131,42 @@ function resetButtonActions() {
     resetCanvas();
 }
 
+function shareButtonActions() {
+    updateURL();
+    //document.getElementById("menu").classList.remove("showMenu");
+    //let title = document.getElementById("daedos-title").innerText;
+    //console.log(title);
+    const title = document.title;
+
+
+    const url =
+        // (document.querySelector("link[rel=canonical]") &&
+        //    document.querySelector("link[rel=canonical]").href) ||
+        window.location.href;
+    if (navigator.share) {
+        navigator
+            .share({
+                title: title,
+                text: "checkout my version of DAEDOS!",
+                url: url,
+            })
+            .then(() => {
+                console.log("Thanks for sharing!");
+            })
+            .catch((err) => {
+                console.log(`Couldn't share because of`, err.message);
+            });
+    } else {
+        console.log("web share not supported");
+        popUpMessage();
+    }
+}
+
+
+
 function popUpMessage() {
-    const title = document.getElementById("daedos-title").textContent;
+    //const title = document.getElementById("daedos-title").textContent;
+    const title = document.title;
     const url =
         // (document.querySelector("link[rel=canonical]") &&
         //     document.querySelector("link[rel=canonical]").href) ||
@@ -153,7 +179,7 @@ function popUpMessage() {
     dummy.select();
     document.execCommand("copy");
     document.body.removeChild(dummy);
-    alert("Link copied please open your messanger and paste to send");
+    alert("Link copied please open your messenger and paste to send");
 }
 
 
@@ -165,23 +191,15 @@ function checkModifierButtons() {
             return;
         }
 
+        // event.target.classList.add("active");
+
         console.dir("modifier button clicked: " + event.target.id);
 
         switch (event.target.id) {
 
             case "addObs":
-                let obsWidth = Math.trunc(canvasWidthMultiple * (10 / 100)); // 5%
-                let obsHeight = Math.trunc(canvasHeightMultiple * (10 / 100)); //5%
 
-                let basicObstacle = {
-                    obsIndex: obstacleArray.length + 1,
-                    obsX: canvasWidthMultiple - 2 * obsWidth,
-                    obsY: canvasHeightMultiple - obsHeight,
-                    obsWidth: obsWidth,
-                    obsHeight: obsHeight,
-                    obsColor: "white",
-                };
-                obstacleArray.push(basicObstacle);
+                insertNewObstacle();
                 reloadMenu();
                 console.log(obstacleArray);
                 break;
@@ -279,4 +297,16 @@ function getSelectedObstacleFromGUI() {
 function reloadMenu() {
     document.getElementById("obstacleForm").innerHTML = "";
     createObstaclesRadiobuttonsFromURL();
+}
+
+function noWayEvent() {
+    console.log("NO WAY OUT");
+    heading.classList.add("blink");
+    let pausebtn = document.getElementById("pauseButton");
+    pausebtn.classList.add("blinkBoxshadow");
+
+    let startbtn = document.getElementById("startButton");
+    startbtn.classList.remove("blinkingBackground");
+    startbtn.classList.remove("active");
+
 }

@@ -9,7 +9,7 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url('/PressStart2P-Regular.woff2') format('woff2'), url('/PressStart2P-Regular.woff') format('woff');
+    src: url('fonts/PressStart2P-Regular.woff2') format('woff2'), url('fonts/PressStart2P-Regular.woff') format('woff');
 }
 
 *,
@@ -36,6 +36,9 @@ body {
     color: white;
     font-size: 16px;
     text-transform: uppercase;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #daedos-wrapper>* {
@@ -43,12 +46,11 @@ body {
 }
 
 #fixed {
-    position: fixed;
+    position: relative;
     z-index: 9;
 }
 
 #daedos-header {
-    margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -63,13 +65,13 @@ copyright {
 }
 
 #daedos-wrapper * h2 {
-    font-size: 48px;
-    font-size: 45pt;
     margin: 0;
     text-shadow: 5px 5px rgb(var(--lightgrey));
     border-bottom: 5px solid rgb(var(--lightgrey));
     font-style: italic;
     color: white;
+    font-size: 35pt;
+    line-height: 1.3;
 }
 
 #daedos-wrapper * h2,
@@ -80,6 +82,8 @@ copyright {
 version {
     font-size: 12px;
     color: rgb(var(--lightgrey));
+    padding: 0;
+    margin: 0;
 }
 
 #daedos-wrapper * a,
@@ -97,9 +101,10 @@ canvas {
     border: 1px solid white;
     background: black;
     /* box-shadow: black 10px 10px; */
-    margin: 20px;
+    margin: 20px auto 10px auto;
+    display: flex;
     /* height: 100%; */
-    max-height: 80vh;
+    /* width: 100%; */
     max-width: 73vw;
     image-rendering: optimizeSpeed;
     image-rendering: -moz-crisp-edges;
@@ -111,7 +116,7 @@ canvas {
 
 .noWayOut {
     color: darkred;
-    animation: blinker 1.2s infinite;
+    animation: blinker 5s infinite;
     box-shadow: 5px 5px darkred, -5px -5px darkred;
 }
 
@@ -124,7 +129,8 @@ canvas {
     transition: 180ms all ease-in-out;
     background-color: rgb(var(--lightgrey));
     opacity: .8;
-    width: 350px;
+    width: 340px;
+    margin-bottom: 40px;
 }
 
 #daedos-menu h3 {
@@ -132,8 +138,9 @@ canvas {
     font-size: 12pt;
     width: 100%;
     background-color: rgb(var(--darkgrey));
-    margin-top: 30px;
-    line-height: 1.8;
+    margin-top: 0px;
+    margin-bottom: auto;
+    line-height: 1.5;
 }
 
 #daedos-menu:hover {
@@ -155,17 +162,45 @@ canvas {
 
 #modifiers {
     display: grid;
-    overflow: hidden;
+    overflow: visible;
+    grid-template-columns: 100%;
     grid-template-areas: "visible hidden hidden hidden";
 }
 
 #modifiers>div {
-    min-width: 330px;
+    width: 100%;
     visibility: hidden;
-    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
 }
 
-#modifiers>div.mod-active {
+#modifiers>#selectObj {
+    visibility: hidden;
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 10px 10px;
+    grid-template-areas: "option add-remove" "objects objects ";
+}
+
+#selectObj>h3 {
+    grid-area: option;
+}
+
+#selectObj>.add-remove {
+    grid-area: add-remove;
+}
+
+#selectObj>#obstacleForm {
+    grid-area: objects;
+}
+
+#modifiers>div.mod-active,
+#modifiers>#selectObj.mod-active {
     visibility: visible;
     opacity: 1;
     grid-area: visible;
@@ -185,14 +220,34 @@ canvas {
 }
 
 .obj.add-remove {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-gap: 10px 0px;
+}
+
+#selectObj>.obj.add-remove>button {
+    padding: 0;
+    margin: 0;
 }
 
 #daedos-menu * button {
     border: none;
     background-color: rgb(var(--darkgrey));
-    background-size: 60%;
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+#modifiers * button {
+    text-align: center;
+    font-family: 'Press Start 2P';
+    color: black;
+    text-transform: uppercase;
+    font-size: 12px;
+    line-height: .5;
+    /* border: none;
+    background-color: rgb(var(--darkgrey));
+    background-size: 70%;
     background-repeat: no-repeat;
     background-position: center;
     font-family: 'Press Start 2P';
@@ -206,7 +261,7 @@ canvas {
     min-width: 45px;
     min-height: 45px;
     padding: 20px;
-    cursor: pointer;
+    cursor: pointer; */
 }
 
 #daedos-menu * button:hover {
@@ -214,14 +269,27 @@ canvas {
 }
 
 #daedos-menu * button:active {
+    /* background-color: rgb(var(--lightgrey));
+    box-shadow: inset 2px 2px rgb(var(--darkgrey)), white 2px 2px;
+    color: white; */
+}
+
+button.active {
     background-color: rgb(var(--lightgrey));
     box-shadow: inset 2px 2px rgb(var(--darkgrey)), white 2px 2px;
     color: white;
 }
 
-button.blinkingBackground {
-    animation: blinkingBackground 1.2s infinite;
+#console>button {
+    height: 45px;
+    padding: 20px;
+    cursor: pointer;
 }
+
+
+/* button.blinkingBackground {
+    animation: blinkingBackground 6s infinite;
+} */
 
 #startButton {
     background-image: url(icons/play.png);
@@ -274,7 +342,7 @@ button.blinkingBackground {
     display: grid;
     grid-gap: 20px;
     justify-content: center;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
     padding: 10px;
 }
 
@@ -382,6 +450,15 @@ label.radio {
 }
 
 @media (max-width: 650px) {
+    #daedos-wrapper {
+        width: auto;
+    }
+    #fixed {
+        position: fixed;
+        top: 70px;
+        display: flex;
+        flex-direction: column;
+    }
     #daedos-header {
         margin-top: 0;
     }
@@ -389,10 +466,13 @@ label.radio {
         font-size: 30pt;
     }
     canvas {
-        /* width: 100%; */
-        margin: 20px;
-        max-width: 73vw;
+        margin: 15px;
+        /* max-width: 73vw; */
+        max-width: 600px;
+        max-height: 60vh;
         /* margin-bottom: 120px; */
+        width: 80%;
+        align-self: center;
     }
     #console {
         grid-gap: 15px;
@@ -403,7 +483,10 @@ label.radio {
         margin-bottom: 10px;
     }
     #obstacleForm {
-        grid-template-columns: auto auto auto;
+        /* grid-template-columns: auto auto auto; */
+    }
+    #daedos-menu {
+        transform: scale(.85);
     }
 }
 
@@ -412,7 +495,7 @@ label.radio {
 }
 
 .blinkingBackground {
-    animation: blinkingBackground 6s steps(1, end) infinite;
+    animation: blinkingBackground 3s steps(1, end) infinite;
 }
 
 .blinkBoxshadow {

@@ -206,4 +206,5 @@ function updateURL() {
     }
 
     console.log("url updated");
+    return newurl;
 }

@@ -1,5 +1,6 @@
 //################## OBSTACLES ################################################################################################
 
+
 function createObstacleObjects(array) {
     array.splice(0, 8); // remove first 8 values of url parameter array.
     let countedObstacles = array.length / 6; // determine the number of obstacles
@@ -19,6 +20,8 @@ function createObstacleObjects(array) {
         obstacleArray.push(obs);
         array.splice(0, 6);
     }
+
+    selectedObstacle = countedObstacles;
 }
 
 
@@ -50,4 +53,28 @@ function setObstaclesIntoWalkerArray() {
         }
     }
     console.log("obstacles placed");
+}
+
+
+
+
+
+
+
+
+
+function insertNewObstacle() {
+    let obsWidth = Math.trunc(canvasWidthMultiple * (10 / 100)); // 5%
+    let obsHeight = Math.trunc(canvasHeightMultiple * (10 / 100)); //5%
+
+    let basicObstacle = {
+        obsIndex: obstacleArray.length + 1,
+        obsX: Math.trunc(canvasWidthMultiple / 2 - obsWidth / 2),
+        obsY: Math.trunc(canvasHeightMultiple / 2 - obsHeight / 2),
+        obsWidth: obsWidth,
+        obsHeight: obsHeight,
+        obsColor: "white",
+    };
+    obstacleArray.push(basicObstacle);
+
 }

@@ -259,14 +259,18 @@ function noWayOut() {
             break;
     }
 
-    noWay
-        ?
-        (console.log("NO WAY OUT"),
-            heading.classList.add("blink"),
-            //document.getElementById("daedos-canvas").classList.add("blinkBoxshadow"),
-            pausebtn = document.getElementById("pauseButton"),
-            pausebtn.classList.add("blinkBoxshadow"), document.getElementById("startButton").classList.remove("blink")) :
-        noWay;
+    if (noWay) {
+        noWayEvent();
+    }
+
+    // noWay
+    //     ?
+    //     (console.log("NO WAY OUT"),
+    //         heading.classList.add("blink"),
+    //         //document.getElementById("daedos-canvas").classList.add("blinkBoxshadow"),
+    //         pausebtn = document.getElementById("pauseButton"),
+    //         pausebtn.classList.add("blinkBoxshadow"), document.getElementById("startButton").classList.remove("blinkingBackground")) :
+    //     noWay;
 
     return noWay;
 }
