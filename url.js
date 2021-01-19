@@ -201,7 +201,9 @@ function updateURL() {
             window.location.pathname +
             "?" +
             urlParams.toString();
-        window.history.replaceState({ path: newurl }, "", newurl);
+        window.history.replaceState({
+            path: newurl
+        }, "", newurl);
         //location.href=newurl;
     }
 

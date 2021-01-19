@@ -185,7 +185,7 @@ canvas {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr;
     gap: 10px 10px;
-    grid-template-areas: "option add-remove" "objects objects ";
+    grid-template-areas: "option add-remove""objects objects ";
 }
 
 #selectObj>h3 {

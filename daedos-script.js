@@ -62,7 +62,12 @@ function initValues() {
     canvasHeightMultiple = canvasHeight / scale;
     canvasBackgroundColor = "#FFFFFF";
 
-    walker = { x: 2, y: 1, color: "#000000", direction: "down" };
+    walker = {
+        x: 2,
+        y: 1,
+        color: "#000000",
+        direction: "down"
+    };
 }
 
 
@@ -534,7 +539,7 @@ function check(direction) {
             log1.push(["left: "+left,"dir: "+walker.direction,"right: "+right]);
             log1.push(["x2: "+x2,"down: "+down,"x3: "+x3]);  */
 
-        console.log(
+        /*console.log(
             "dir: " +
             walker.direction +
             "\tup: " +
@@ -553,7 +558,7 @@ function check(direction) {
             walker.x3 +
             "\tx4: " +
             walker.x4
-        );
+        );*/
 
         //console.table(log1);
 
@@ -580,7 +585,7 @@ function go(dir) {
             walker.x++;
             break;
     }
-    console.log("go: " + dir);
+    //console.log("go: " + dir);
 }
 
 
@@ -628,7 +633,11 @@ function initCanvasArray() {
         canvasArray[y] = [];
         for (var x = 0; x < canvasWidthMultiple; x++) {
             let color = canvasBackgroundColor;
-            let element = { x, y, color };
+            let element = {
+                x,
+                y,
+                color
+            };
             setCanvasArray(element);
         }
     }
