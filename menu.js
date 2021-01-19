@@ -149,7 +149,6 @@ function shareButtonActions() {
         navigator
             .share({
                 title: title,
-                text: "checkout my version of DAEDOS!",
                 url: url,
             })
             .then(() => {
