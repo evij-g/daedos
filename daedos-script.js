@@ -45,7 +45,7 @@ var frameCount = 0;
 var fps, fpsInterval, startTime, now, then, elapsed;
 
 let queryString;
-let initqueryString = "?width=500&height=420&scale=10&bgcolor=black&startx=1&starty=1&startdir=down&linecolor=white&obs=1&obsx=1&obsy=11&obswidth=4&obsheight=4&obscolor=white&obs=2&obsx=18&obsy=4&obswidth=5&obsheight=8&obscolor=white";
+let initqueryString = "?width=1200&height=620&scale=10&bgcolor=black&startx=1&starty=1&startdir=down&linecolor=white&obs=1&obsx=5&obsy=16&obswidth=7&obsheight=5&obscolor=white&obs=3&obsx=26&obsy=40&obswidth=4&obsheight=15&obscolor=white&obs=3&obsx=64&obsy=49&obswidth=5&obsheight=12&obscolor=white";
 
 
 

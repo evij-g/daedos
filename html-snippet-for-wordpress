@@ -1,0 +1,320 @@
+<style>
+    
+body.post-template-default.single.single-post.postid-4931 {
+    background-color: rgb(var(--darkgrey));
+}
+
+.elementor-toc__body .elementor-toc__list-item-text:hover {
+    color: black;
+}
+
+span.elementor-button-text {
+    line-height: 1.5!important;
+}
+
+button.elementor-button:hover{
+filter:contrast(.3);
+}
+
+button.elementor-button:active{
+filter:invert(1);
+box-shadow: 0 0 0px 2px white;
+}
+    
+div#site-header-inner {
+    
+    filter: invert(1);
+}
+
+footer{
+    filter:invert(1);
+
+}
+
+footer * .mypicture {
+    filter: invert(1);
+}
+
+ 
+
+.elementor-element.elementor-element-f8bd90b.elementor-widget.elementor-widget-template{
+    margin-bottom: 0;
+}
+
+h1.elementor-heading-title, h2, h3, button, label {
+    font-family: 'PRESS START 2P'!important;
+font-weight:normal!important;
+    color:white!important;
+padding-bottom:10px;
+
+}
+
+h1.elementor-heading-title{
+color:black!important;}
+
+version{
+    text-align:center;
+}
+
+label.wpforms-field-label-inline {
+    font-family: 'josefine-sans'!important;
+}
+
+.wpforms-container input[type=text], .wpforms-container textarea {
+    background-color: white;
+    border-radius: 0;
+}
+
+@media only screen and (max-width: 960px){
+    body.vertical-header-style.left-header #outer-wrap {
+        margin-left: 34px;
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 650px){
+.mgl-masonry-container > div{
+    column-count: 2!important;
+margin: 0px!important;
+    padding-left: 10px;
+}
+div.wpforms-container-full {
+    padding-left: 20px!important;
+    padding-right:2px;
+
+}
+
+#wpforms-form-5228 input, textarea {
+    background-color: white!important;
+    border-radius: 0;
+    min-width: 100%;
+}
+
+button#wpforms-submit-5228 {
+    line-height: 1.8;
+}
+
+input#form-link-field {
+    min-height: 25px;
+}
+
+.wpforms-container input[type=checkbox], .wpforms-container input[type=radio] {
+    width: 13px;
+    height: 13px;
+    margin: 2px 10px 0 3px;
+    display: inline-block;
+    vertical-align: baseline;
+    min-width: auto!important;
+}
+
+}
+
+
+</style>
+
+
+ <!-- ################################################################################### -->
+
+
+    <div id="daedos-wrapper">
+         
+         
+        <div id="fixed">
+            <version>V.1.2.0 19-01-2021</version>
+            <div id="daedos-header">
+                
+            </div>    
+                
+            <canvas id="daedos-canvas" width="150" height="150"></canvas>
+        </div>
+        <div id="daedos-menu">
+            <div id="console">
+
+                <button id="startButton" name="start"></button>
+                <button id="pauseButton" name="pause"></button>
+                <button id="resetButton" name="reset"></button>
+                <button id="shareButton" name="share"></button>
+
+                <button id="selectObjButton" name="start"></button>
+                <button id="moveObjButton" name="pause"></button>
+                <button id="sizeObjButton" name="reset"></button>
+                <button id="sizeCanvasButton" name="share"></button>
+
+            </div>
+
+
+
+
+            <div id="modifiers">
+
+
+
+                <div id="selectObj" class="select mod-active">
+                    <h3>select object</h3>
+                    <div class="obj add-remove">
+                        <button id="addObs">+</button>
+                        <button id="removeObs">-</button>
+                    </div>
+
+                    <!-- generate radio buttons based on URL parameters-->
+                    <form id="obstacleForm" name="obstacleForm">
+
+
+                    </form>
+
+                </div>
+
+
+
+                <div id="positionObj" class="obj position">
+                    <h3>change object position</h3>
+                    <div class="cross">
+                        <div></div>
+                        <button id="upPosButton">▲</button>
+                        <div></div>
+
+                        <button id="leftPosButton">◀</button>
+                        <div></div>
+                        <button id="rightPosButton">▶</button>
+
+                        <div></div>
+                        <button id="downPosButton">▼</button>
+                        <div></div>
+                    </div>
+                </div>
+
+                <div id="sizeObj" class="obj size">
+                    <h3>change object size</h3>
+                    <div class="cross">
+                        <div></div>
+                        <button id="sizeYMinusButton">Y-</button>
+                        <div></div>
+
+                        <button id="sizeXMinusButton">X-</button>
+                        <div></div>
+                        <button id="sizeXPlusButton">X+</button>
+
+                        <div></div>
+                        <button id="sizeYPlusButton">Y+</button>
+                        <div></div>
+                    </div>
+                </div>
+
+                <div id="canvasSize" class="canv size">
+                    <h3>change canvas size</h3>
+                    <div class="cross">
+                        <div></div>
+                        <button id="canvasSizeYMinusButton">Y-</button>
+                        <div></div>
+
+                        <button id="canvasSizeXMinusButton">X-</button>
+                        <div></div>
+                        <button id="canvasSizeXPlusButton">X+</button>
+
+
+                        <div></div>
+                        <button id="canvasSizeYPlusButton">Y+</button>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hidden>
+            <svg width="30" height="30" xmlns:xlink="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect id="rect" width="30" height="30"/>
+              </svg>
+        </hidden>
+
+
+        <!-- ################################################################################### -->
+
+        
+
+
+
+
+<script type='text/javascript'>
+function loadjscssfile(filename, filetype){
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script');
+        fileref.setAttribute("type","text/javascript");
+        fileref.setAttribute("src", filename);
+    }
+    else if (filetype=="css"){ //if filename is an external CSS file
+        var fileref=document.createElement("link");
+        fileref.setAttribute("rel", "stylesheet");
+        fileref.setAttribute("type", "text/css");
+        fileref.setAttribute("href", filename);
+    }
+    if (typeof fileref!="undefined"){
+        document.getElementsByTagName("head")[0].appendChild(fileref);}
+}
+ 
+//loadjscssfile("myscript.js", "js"); //dynamically load and add this .js file
+
+loadjscssfile("/wp-content/uploads/2021/01/daedos/daedos-style.css", "css");
+////dynamically load and add this .css file
+            
+        </script>
+
+<script type="text/javascript" src="/wp-content/uploads/2021/01/daedos/daedos-script.js"></script>
+
+<script type="text/javascript" src="/wp-content/uploads/2021/01/daedos/obstacle.js"></script>
+
+<script type="text/javascript" src="/wp-content/uploads/2021/01/daedos/url.js"></script>
+
+<script type="text/javascript" src="/wp-content/uploads/2021/01/daedos/menu.js"></script>
+        
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+    //do work
+
+    initDAEDOS();
+
+
+//heading = document.getElementById("share-title-link");
+
+
+var testContainer = document.getElementById("share-title-link");
+heading = testContainer.querySelector('.elementor-heading-title');
+
+
+
+const daedoswrapper = document.getElementById("daedos-wrapper");
+const formular = document.getElementById("wpforms-5228");
+
+
+heading.addEventListener('click', checkClick,true);
+//daedoswrapper.addEventListener('click', checkClick,true);
+//formular.addEventListener('click', checkClick,true);
+
+function checkClick(){
+console.log(this);
+
+    switch (this) {
+
+        case heading:
+            shareButtonActions();
+            break;
+
+        case daedoswrapper:
+            document.getElementById("fixed").style.display = "flex";
+            console.log("clicked on daedos-wrapper");
+            break;
+
+        case formular:
+           
+            document.getElementById("fixed").style.display = "none";
+            //calculateMarginForMenu()
+            console.log("clicked on formular");
+            break;
+
+
+    }
+
+}
+
+});
+</script>
+
+</div>
