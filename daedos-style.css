@@ -25,6 +25,7 @@ hidden,
 
 body {
     background-color: rgb(var(--darkgrey));
+    font-size: 12pt;
 }
 
 #daedos-wrapper {
@@ -104,7 +105,7 @@ canvas {
     margin: 20px auto 10px auto;
     display: flex;
     /* height: 100%; */
-    /* width: 100%; */
+    width: 100%;
     max-width: 73vw;
     image-rendering: optimizeSpeed;
     image-rendering: -moz-crisp-edges;
@@ -454,8 +455,9 @@ label.radio {
         width: auto;
     }
     #fixed {
-        position: fixed;
-        top: 70px;
+        /* position: fixed; */
+        position: relative;
+        padding-top: 43px;
         display: flex;
         flex-direction: column;
     }
@@ -466,60 +468,76 @@ label.radio {
         font-size: 30pt;
     }
     canvas {
-        margin: 15px;
-        /* max-width: 73vw; */
-        max-width: 600px;
+        margin: 0px;
+        max-width: 84vw;
         max-height: 60vh;
-        /* margin-bottom: 120px; */
-        width: 80%;
         align-self: center;
-    }
-    #console {
-        grid-gap: 15px;
-    }
-    #console>button {
-        margin-left: 8px;
-        margin-right: 8px;
-        margin-bottom: 10px;
-    }
-    #obstacleForm {
-        /* grid-template-columns: auto auto auto; */
-    }
-    #daedos-menu {
-        transform: scale(.85);
     }
 }
 
+#console {
+    grid-gap: 15px;
+}
+
+#console>button {
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 10px;
+}
+
+#obstacleForm {
+    /* grid-template-columns: auto auto auto; */
+}
+
+#daedos-menu {
+    transform: scale(.85);
+}
+
+
+}
 .blink {
     animation: blinkingText 6s steps(1, end) infinite;
 }
-
 .blinkingBackground {
     animation: blinkingBackground 3s steps(1, end) infinite;
 }
-
 .blinkBoxshadow {
     animation: animatedBoxshadow 6s steps(1, end) infinite;
 }
-
+.blinkingBackgroundHeading {
+    animation: blinkingBackgroundHeading 3s steps(1, end) infinite;
+}
 @keyframes blinkingBackground {
     0%,
     50%,
     100% {
         background-color: rgb(var(--darkgrey));
     }
+    
     25%,
     75% {
         background-color: var(--lightgrey-light);
     }
 }
-
+@keyframes blinkingBackgroundHeading {
+    0%,
+    50%,
+    100% {
+        filter: invert(1);
+    }
+    
+    25%,
+    75% {
+        filter: invert(0);
+    }
+}
 @keyframes blinkingText {
     0%,
     50%,
     100% {
         color: white;
     }
+    
     25%,
     75% {
         mix-blend-mode: difference;
@@ -527,25 +545,28 @@ label.radio {
         color: var(--darker);
     }
 }
-
 @keyframes blinker {
     0% {}
+    
     49% {}
+    
     60% {
         filter: brightness(.5);
     }
+    
     99% {
         filter: brightness(.5);
     }
+    
     100% {}
 }
-
 @keyframes animatedBoxshadow {
     0%,
     50%,
     100% {
         box-shadow: 0px 0px 0 5px darkred;
     }
+    
     25%,
     75% {
         box-shadow: none;

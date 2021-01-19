@@ -677,7 +677,7 @@ function drawCanvasArray() {
 function resetCanvas() {
     let width = canvasWidthMultiple * scale;
     let height = canvasHeightMultiple * scale;
-    calculateMarginForMenu();
+    //calculateMarginForMenu();
 
     initCanvasArray();
     //createBorder();
@@ -688,6 +688,8 @@ function resetCanvas() {
     ctx.canvas.height = height;
     ctx.clearRect(0, 0, width, height);
     walkerCTX.clearRect(0, 0, width, height);
+
+    //setPropertiesFromURL();
     setObstaclesIntoWalkerArray();
     drawWalker();
 }

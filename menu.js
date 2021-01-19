@@ -1,10 +1,10 @@
 function calculateMarginForMenu() {
     let marginTop = document.getElementById("fixed").offsetHeight;
-    //height += document.getElementById("daedos-canvas").offsetHeight;
+    //marginTop = document.getElementById("daedos-canvas").offsetHeight;
     console.log(marginTop);
 
     if (window.innerWidth < 650) {
-        document.getElementById("daedos-menu").style.marginTop = marginTop + 15 + "px";
+        //document.getElementById("daedos-menu").style.marginTop = marginTop + 15 + "px";
     }
 }
 
@@ -49,7 +49,8 @@ function checkConsoleButtons() {
                 startBtnValue = true;
 
                 document.getElementById("startButton").classList.add("blinkingBackground");
-                document.getElementById("pauseButton").classList.remove("blinkingBackground");
+                document.getElementById("pauseButton").classList.remove("blinkingBackground", "noWay");
+
 
                 startAnimating();
 
@@ -121,10 +122,11 @@ function resetButtonActions() {
     startBtnValue = false;
 
     document.getElementById("startButton").classList.remove("blinkingBackground");
-    document.getElementById("pauseButton").classList.remove("blinkingBackground");
+    document.getElementById("resetButton").classList.remove("blinkingBackground", "blinkBoxshadow");
 
-    heading.classList.remove("blink");
-    document.getElementById("daedos-canvas").classList.remove("blinkBoxshadow");
+
+    heading.classList.remove("blinkingBackgroundHeading");
+    //document.getElementById("daedos-canvas").classList.remove("blinkBoxshadow");
 
     noWay = false;
 
@@ -161,6 +163,9 @@ function shareButtonActions() {
         popUpMessage();
     }
 }
+
+
+
 
 
 
@@ -301,12 +306,17 @@ function reloadMenu() {
 
 function noWayEvent() {
     console.log("NO WAY OUT");
-    heading.classList.add("blink");
-    let pausebtn = document.getElementById("pauseButton");
-    pausebtn.classList.add("blinkBoxshadow");
+    heading.classList.toggle("blinkingBackgroundHeading");
+
+    //heading.classList.add("blinkBoxshadow");
+    let resetbtn = document.getElementById("resetButton");
+    resetbtn.classList.add("blinkBoxshadow");
+    resetbtn.classList.remove("active");
 
     let startbtn = document.getElementById("startButton");
     startbtn.classList.remove("blinkingBackground");
     startbtn.classList.remove("active");
+
+
 
 }
