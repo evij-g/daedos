@@ -80,7 +80,7 @@ copyright {
     text-align: center;
 }
 
-#h2#daedos-title {
+h2#daedos-title {
     margin-bottom: 15px;
 }
 
@@ -486,10 +486,6 @@ label.radio {
     margin-left: 8px;
     margin-right: 8px;
     margin-bottom: 10px;
-}
-
-#obstacleForm {
-    /* grid-template-columns: auto auto auto; */
 }
 
 #daedos-menu {
