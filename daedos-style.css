@@ -80,6 +80,10 @@ copyright {
     text-align: center;
 }
 
+#h2#daedos-title {
+    margin-bottom: 15px;
+}
+
 version {
     font-size: 12px;
     color: rgb(var(--lightgrey));
@@ -344,7 +348,6 @@ button.active {
     grid-gap: 20px;
     justify-content: center;
     grid-template-columns: 1fr 1fr 1fr;
-    padding: 10px;
 }
 
 label.radio {
