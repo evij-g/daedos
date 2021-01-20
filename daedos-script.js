@@ -509,9 +509,12 @@ function check(direction) {
                 if (walker.rightBorder && walker.downBorder) {
                     go("up");
                 } else {
+
                     if (walker.right && !walker.down && (walker.x2 || !walker.x2)) {
+                        console.log("neuerFall");
                         //weiter
                         go("right");
+
                     }
 
                     if (!walker.down && !walker.right && walker.up) {
@@ -532,38 +535,43 @@ function check(direction) {
                 }
                 break;
         }
-
-        /* let log1 = [];
-            //log1.push(["","upBorder: "+upBorder,""]);
-            log1.push(["x1:"+x1,"up: "+up,"x4: "+x4]);
-            log1.push(["left: "+left,"dir: "+walker.direction,"right: "+right]);
-            log1.push(["x2: "+x2,"down: "+down,"x3: "+x3]);  */
-
-        /*console.log(
-            "dir: " +
-            walker.direction +
-            "\tup: " +
-            walker.up +
-            "\tleft: " +
-            walker.left +
-            "\tdown: " +
-            walker.down +
-            "\tright: " +
-            walker.right +
-            "\tx1: " +
-            walker.x1 +
-            "\tx2: " +
-            walker.x2 +
-            "\tx3: " +
-            walker.x3 +
-            "\tx4: " +
-            walker.x4
-        );*/
-
-        //console.table(log1);
-
-        //printWalkerMatrix();
+        //printWalkerValues();
     }
+}
+
+function printWalkerValues() {
+    console.log(
+        "dir: " +
+        walker.direction +
+        "\tup: " +
+        walker.up +
+        "\tleft: " +
+        walker.left +
+        "\tdown: " +
+        walker.down +
+        "\tright: " +
+        walker.right +
+        "\tx1: " +
+        walker.x1 +
+        "\tx2: " +
+        walker.x2 +
+        "\tx3: " +
+        walker.x3 +
+        "\tx4: " +
+        walker.x4
+    );
+
+    /* let log1 = [];
+               //log1.push(["","upBorder: "+upBorder,""]);
+               log1.push(["x1:"+x1,"up: "+up,"x4: "+x4]);
+               log1.push(["left: "+left,"dir: "+walker.direction,"right: "+right]);
+               log1.push(["x2: "+x2,"down: "+down,"x3: "+x3]);  */
+
+
+    // console.table(walkerMatrixValues);
+    //console.table(walkerCanvasArray);
+
+    //printWalkerMatrix();
 }
 
 function go(dir) {
@@ -585,7 +593,7 @@ function go(dir) {
             walker.x++;
             break;
     }
-    //console.log("go: " + dir);
+    console.log("go: " + dir);
 }
 
 
@@ -629,9 +637,11 @@ function countToThree() {
 
 // ############ CANVAS ARRAY ########### ####################################################################################
 function initCanvasArray() {
-    for (var y = 0; y < canvasHeightMultiple; y++) {
+    canvasArray.length = 0; //reset canvasArray fix for stopping walker process after vertical resize of canvas
+
+    for (let y = 0; y < canvasHeightMultiple; y++) {
         canvasArray[y] = [];
-        for (var x = 0; x < canvasWidthMultiple; x++) {
+        for (let x = 0; x < canvasWidthMultiple; x++) {
             let color = canvasBackgroundColor;
             let element = {
                 x,
@@ -660,8 +670,8 @@ function setCanvasArray(e) {
 
 
 function drawCanvasArray() {
-    for (var y = 0; y < canvasHeightMultiple; y++) {
-        for (var x = 0; x < canvasWidthMultiple; x++) {
+    for (let y = 0; y < canvasHeightMultiple; y++) {
+        for (let x = 0; x < canvasWidthMultiple; x++) {
             //console.log(" drawCanvasArray:\ty:"+y+" x:"+x+" color:"+canvasArray[y][x]);
 
             // if(canvasArray[y][x] != "walker"){
@@ -701,6 +711,8 @@ function resetCanvas() {
     //setPropertiesFromURL();
     setObstaclesIntoWalkerArray();
     drawWalker();
+
+
 }
 
 

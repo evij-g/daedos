@@ -255,19 +255,19 @@ function checkModifierButtons() {
 
             case "canvasSizeXPlusButton":
                 canvasWidthMultiple++;
-                resetCanvas();
+                //resetCanvas();
                 break;
             case "canvasSizeXMinusButton":
                 canvasWidthMultiple--;
-                resetCanvas();
+                //resetCanvas();
                 break;
             case "canvasSizeYPlusButton":
                 canvasHeightMultiple++;
-                resetCanvas();
+                //resetCanvas();
                 break;
             case "canvasSizeYMinusButton":
                 canvasHeightMultiple--;
-                resetCanvas();
+                //resetCanvas();
                 break;
         }
         updateURL();
