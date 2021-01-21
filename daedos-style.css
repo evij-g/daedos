@@ -18,6 +18,16 @@
     box-sizing: border-box;
 }
 
+
+/*--------- IOS tapping on buttons fix - works! ----------*/
+
+button {
+    touch-action: manipulation;
+}
+
+
+/*--------- -------------------------- -----------*/
+
 hidden,
 .hidden {
     display: none;
