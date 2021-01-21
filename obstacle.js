@@ -1,6 +1,12 @@
 //################## OBSTACLES ################################################################################################
 
 
+
+var obstacleArray = [];
+var selectedObstacle = 0;
+
+
+
 function createObstacleObjects(array) {
     array.splice(0, 8); // remove first 8 values of url parameter array.
     let countedObstacles = array.length / 6; // determine the number of obstacles
@@ -21,7 +27,7 @@ function createObstacleObjects(array) {
         array.splice(0, 6);
     }
 
-    selectedObstacle = countedObstacles;
+    selectedObstacle = countedObstacles; //set selected object to last inserted
 }
 
 
@@ -48,7 +54,7 @@ function setObstaclesIntoWalkerArray() {
                     y: y + object.obsY,
                     color: object.obsColor,
                 };
-                setWalker(fragment);
+                setWalker(fragment); // inserts object into walkerArray
             }
         }
     }

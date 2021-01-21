@@ -21,8 +21,6 @@ var walker = {};
 
 var walkerMatrixValues = {};
 
-var obstacleArray = [];
-var selectedObstacle = 0;
 
 walkerCTX.webkitImageSmoothingEnabled = true;
 walkerCTX.imageSmoothingEnabled = true;
