@@ -4,6 +4,7 @@
 
 var obstacleArray = [];
 var selectedObstacle = 0;
+var selectedObjectColor = "violet";
 
 
 
@@ -12,7 +13,7 @@ function createObstacleObjects(array) {
     let countedObstacles = array.length / 6; // determine the number of obstacles
 
     for (let i = 0; i < countedObstacles; i++) {
-        // extract the values from the array and push it into an seperate object
+        // extract the values from the array and push them into an seperate object
 
         let obs = {
             obsIndex: array[0],
@@ -21,6 +22,7 @@ function createObstacleObjects(array) {
             obsWidth: parseInt(array[3]),
             obsHeight: parseInt(array[4]),
             obsColor: array[5],
+            obsSelected: false,
         };
 
         obstacleArray.push(obs);
@@ -32,12 +34,22 @@ function createObstacleObjects(array) {
 
 
 
+//--------------------- selected object indication enhancement ----------------------
+
+function setSelectedObstacleColor() {
+    let obsColor = obstacleArray[selectedObstacle].obsColor;
+
+    obstacleArray[selectedObstacle].obsSelected = true; // visual reference override
+}
+
+function overrideAllObstaclesColorToWhite() { // This one should be called right before user press "play" and before the user selects a object
+    for (let obs = 0; obs < obstacleArray.length; obs++) {
+        obstacleArray[obs].obsColor = "white";
+    }
+}
 
 
-
-
-
-
+//--------------------- --------------------------------------------------------------
 
 
 
@@ -79,7 +91,7 @@ function insertNewObstacle() {
         obsY: Math.trunc(canvasHeightMultiple / 2 - obsHeight / 2),
         obsWidth: obsWidth,
         obsHeight: obsHeight,
-        obsColor: "white",
+        obsColor: selectedObjectColor, //selected-
     };
     obstacleArray.push(basicObstacle);
 

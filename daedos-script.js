@@ -44,7 +44,7 @@ var fps, fpsInterval, startTime, now, then, elapsed;
 
 let queryString;
 let initqueryString = "?width=1200&height=620&scale=10&bgcolor=black&startx=1&starty=1&startdir=down&linecolor=white&obs=1&obsx=5&obsy=16&obswidth=7&obsheight=5&obscolor=white&obs=3&obsx=26&obsy=40&obswidth=4&obsheight=15&obscolor=white&obs=3&obsx=64&obsy=49&obswidth=5&obsheight=12&obscolor=white";
-
+initqueryString = "?width=840&height=460&scale=10&bgcolor=black&startx=1&starty=1&startdir=down&linecolor=white&obs=1&obsx=5&obsy=16&obswidth=6&obsheight=3&obscolor=white&obs=3&obsx=26&obsy=29&obswidth=3&obsheight=10&obscolor=white&obs=3&obsx=51&obsy=38&obswidth=3&obsheight=7&obscolor=white";
 
 
 
@@ -210,7 +210,10 @@ function initWalker() {
 
 
 function setWalker(fragment) {
-    walkerCanvasArray[fragment.y][fragment.x] = fragment.color;
+    walkerCanvasArray[fragment.y][fragment.x] = fragment.color; //working!
+
+    // if instead of just filling the array with colors, fill it with the full object, i can determine if its a "walker"-cell, "object"-cell or free space
+    //walkerCanvasArray[fragment.y][fragment.x] = fragment; 
 }
 
 
@@ -659,6 +662,7 @@ function initCanvasArray() {
 //set color in array field of given object variables (x,y,color)
 function setCanvasArray(e) {
     canvasArray[e.y][e.x] = e.color;
+
 }
 
 
@@ -707,6 +711,7 @@ function resetCanvas() {
     walkerCTX.clearRect(0, 0, width, height);
 
     //setPropertiesFromURL();
+    //overrideAllObstaclesColorToWhite(); //reset selected object color
     setObstaclesIntoWalkerArray();
     drawWalker();
 

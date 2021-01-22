@@ -111,21 +111,19 @@ function createObstaclesRadiobuttonsFromURL() {
     for (let obs = 0; obs < obstacleArray.length; obs++) {
         let object = obstacleArray[obs];
         let color = object.obsColor;
+        let first = (obs == 0) ? 'checked="checked"' : " ";
 
         let radioString =
             `
             <label class="radio radio-before">
                 <span class="radio__input">
-                <input type="radio" name="obstacle" value="` +
-            obs +
-            `">
+                <input type="radio" name="obstacle" value="` + obs + `" ` + first + `>
                 <span class="radio__control"></span>
                 </span>
                 <span class="radio__label">
                     <span class="radio__label_inner">
-                        <svg fill="` +
-            color +
-            `"><use href="#rect"></use></svg>
+                    <div class="radio__label_inner__object" style="background-color:` + color + `"></div>
+                        
                     </span>
                 </span>
             </label>`;
