@@ -72,6 +72,8 @@ function setPropertiesFromURL() {
 
         canvas.width = parameter.get("width");
         canvas.height = parameter.get("height");
+
+        //basicCell.color = parameter.get("bgcolor"); //edit mode feature
         canvasBackgroundColor = parameter.get("bgcolor");
 
         scale = parameter.get("scale");
@@ -84,7 +86,15 @@ function setPropertiesFromURL() {
             starty: parameter.get("starty"),
             color: parameter.get("linecolor"),
             startdirection: parameter.get("startdir"),
+            type: "walker"
         };
+
+        basicCell = {
+            type: "background",
+            color: canvasBackgroundColor
+        };
+
+
 
         initCanvasArray();
         initWalker();
@@ -105,38 +115,6 @@ function setPropertiesFromURL() {
 
 
 
-function createObstaclesRadiobuttonsFromURL() {
-    // generate all radiobuttons and assign the color to the label from obstacleArray
-
-    for (let obs = 0; obs < obstacleArray.length; obs++) {
-        let object = obstacleArray[obs];
-        let color = object.obsColor;
-        let first = (obs == 0) ? 'checked="checked"' : " ";
-
-        let radioString =
-            `
-            <label class="radio radio-before">
-                <span class="radio__input">
-                <input type="radio" name="obstacle" value="` + obs + `" ` + first + `>
-                <span class="radio__control"></span>
-                </span>
-                <span class="radio__label">
-                    <span class="radio__label_inner">
-                    <div class="radio__label_inner__object" style="background-color:` + color + `"></div>
-                        
-                    </span>
-                </span>
-            </label>`;
-
-        // radioString="test";
-
-        document.getElementById("obstacleForm").innerHTML += radioString;
-    }
-
-    // add event listener to radiobuttons form
-
-    document.obstacleForm.addEventListener("change", getSelectedObstacleFromGUI);
-}
 
 
 
@@ -164,7 +142,7 @@ function updateURL() {
     urlParams.set("width", canvas.width);
     urlParams.set("height", canvas.height);
     urlParams.set("scale", scale);
-    urlParams.set("bgcolor", canvasBackgroundColor);
+    urlParams.set("bgcolor", basicCell.color);
 
     urlParams.set("startx", walker.startx);
     urlParams.set("starty", walker.starty);

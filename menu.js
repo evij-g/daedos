@@ -51,7 +51,7 @@ function checkConsoleButtons() {
                 document.getElementById("startButton").classList.add("blinkingBackground");
                 document.getElementById("pauseButton").classList.remove("blinkingBackground", "noWay");
 
-
+                setObjectEditMode(false);
                 startAnimating();
 
                 break;
@@ -60,6 +60,7 @@ function checkConsoleButtons() {
                 console.log("pause animatiion");
 
                 startBtnValue = false;
+                setObjectEditMode(false);
 
                 document.getElementById("startButton").classList.remove("blinkingBackground");
                 document.getElementById("pauseButton").classList.add("blinkingBackground");
@@ -69,7 +70,7 @@ function checkConsoleButtons() {
 
             case "resetButton":
                 console.log("stop and reset animatiion");
-
+                setObjectEditMode(false);
                 resetButtonActions();
 
 
@@ -81,6 +82,7 @@ function checkConsoleButtons() {
 
             case "shareButton":
                 shareButtonActions();
+                setObjectEditMode(false);
 
                 break;
 
@@ -89,6 +91,7 @@ function checkConsoleButtons() {
                 document.getElementById("positionObj").classList.remove("mod-active");
                 document.getElementById("sizeObj").classList.remove("mod-active");
                 document.getElementById("canvasSize").classList.remove("mod-active");
+                setObjectEditMode(true);
                 break;
 
             case "moveObjButton":
@@ -96,6 +99,7 @@ function checkConsoleButtons() {
                 document.getElementById("positionObj").classList.add("mod-active");
                 document.getElementById("sizeObj").classList.remove("mod-active");
                 document.getElementById("canvasSize").classList.remove("mod-active");
+                setObjectEditMode(true);
                 break;
 
             case "sizeObjButton":
@@ -103,6 +107,7 @@ function checkConsoleButtons() {
                 document.getElementById("positionObj").classList.remove("mod-active");
                 document.getElementById("sizeObj").classList.add("mod-active");
                 document.getElementById("canvasSize").classList.remove("mod-active");
+                setObjectEditMode(true);
                 break;
 
             case "sizeCanvasButton":
@@ -110,6 +115,7 @@ function checkConsoleButtons() {
                 document.getElementById("positionObj").classList.remove("mod-active");
                 document.getElementById("sizeObj").classList.remove("mod-active");
                 document.getElementById("canvasSize").classList.add("mod-active");
+                setObjectEditMode(true);
                 break;
 
         }
@@ -121,6 +127,7 @@ function checkConsoleButtons() {
 function resetButtonActions() {
     startBtnValue = false;
 
+
     document.getElementById("startButton").classList.remove("blinkingBackground");
     document.getElementById("pauseButton").classList.remove("blinkingBackground", "blinkBoxshadow");
     document.getElementById("resetButton").classList.remove("blinkingBackground", "blinkBoxshadow");
@@ -130,8 +137,14 @@ function resetButtonActions() {
     //document.getElementById("daedos-canvas").classList.remove("blinkBoxshadow");
 
     noWay = false;
-    overrideAllObstaclesColorToWhite();
+
     resetCanvas();
+}
+
+function setObjectEditMode(e) {
+    obsSelectedEditMode = e;
+    console.log("Edit mode!");
+    drawWalker();
 }
 
 
@@ -220,6 +233,7 @@ function checkModifierButtons() {
                 //resetCanvas();
                 break;
         }
+        setObjectEditMode(true);
         updateURL();
         resetButtonActions();
 
@@ -234,53 +248,70 @@ function checkModifierButtons() {
 //############ GUI ##################################################################################
 
 
+function createObstaclesRadiobuttonsFromURL() {
+    // generate all radiobuttons and assign the color to the label from obstacleArray
+
+    for (let obs = 0; obs < obstacleArray.length; obs++) {
+        let object = obstacleArray[obs];
+        let color = object.obsColor;
+        let last = (obs == 0) ? 'checked="checked"' : " ";
+
+        let radioString =
+            `
+            <label class="radio radio-before">
+                <span class="radio__input">
+                <input type="radio" name="obstacle" value="` + obs + `" ` + last + `>
+                <span class="radio__control"></span>
+                </span>
+                <span class="radio__label">
+                    <span class="radio__label_inner">
+                    <div class="radio__label_inner__object" style="background-color:` + color + `"></div>
+                        
+                    </span>
+                </span>
+            </label>`;
+
+        // radioString="test";
+
+        document.getElementById("obstacleForm").innerHTML += radioString;
+    }
+
+    // add event listener to radiobuttons form
+
+    document.obstacleForm.addEventListener("change", getSelectedObstacleFromGUI);
+}
+
+
+
 function getSelectedObstacleFromGUI() {
-    //
-
-
 
     let obstacleForm = document.getElementById("obstacleForm");
-    let radios = obstacleForm.elements.obstacle; //returns html collection with active radiobutton as "value"
-    selectedObstacle = radios.value; // sets the global selectedObstacle variable to active radiobutton-value
-
-    //obstacleArray[selectedObstacle].obsColor = selectedObstacleColor; // visual reference override works!
+    let radios = obstacleForm.elements.obstacle; //returns html collection where active radiobutton is "value"
 
 
+    try {
 
-    for (entry of obstacleForm.children) { //obstacleForm.children returns array iterator // zuerst wird die active-klasse von allen radiobuttons entfernt
-        console.log(entry);
-        entry.classList.remove("checked");
-    } //danach setze die checked klasse auf den aktiven Radiobutton
-    let activeRadio = obstacleForm.children.item(selectedObstacle);
-    setSelectedObstacleRadioIndicatorColor();
-    activeRadio.classList.add("checked");
+        selectedObstacle = radios.value; // sets the global selectedObstacle variable to active radiobutton-value
+
+        //obstacleArray[selectedObstacle].obsColor = selectedObstacleColor; // visual reference override works!
+
+        console.log("selected radiobutton: " + selectedObstacle);
+
+        for (entry of obstacleForm.children) { //obstacleForm.children returns array iterator // zuerst wird die active-klasse von allen radiobuttons entfernt
+            entry.classList.remove("checked");
+        } //danach setze die checked klasse auf den aktiven Radiobutton
+        let activeRadio = obstacleForm.children.item(selectedObstacle);
+        setSelectedObstacleRadioIndicatorColor();
+        activeRadio.classList.add("checked");
+    } catch (error) {
+        console.log("no objects inserted!");
+    }
 
 
-    //live nodelists
 
-    // console.log(radios.childNodes);
-
-    /* const radiobuttons = document.querySelectorAll('input[name="obstacle"]');
-     for (const button of radiobuttons) {
-         if (button.checked) {
-             selectedObstacle = button.value;
-             console.log(button);
-             console.log("parentNode");
-             console.log(button.parentNode.parentNode);
-             button.parentNode.parentNode.classList.toggle("checked");
-             overrideAllObstaclesColorToWhite();
-
-             obstacleArray[selectedObstacle].obsColor = selectedObstacleColor; // visual reference override
-             //console.log(obstacleArray[selectedObstacle]);
-             setSelectedObstacleRadioIndicatorColor();
-             break;
-
-         }
-     }*/
-
-    //resetButtonActions();
-    console.log("selected Object: " + selectedObstacle);
-    resetCanvas();
+    //overrideAllObstaclesColorToWhite();
+    resetCanvas(); //there should be set the active object color 
+    //drawWalker();
 }
 
 
@@ -290,9 +321,8 @@ function setSelectedObstacleRadioIndicatorColor() { //override the color of the 
 
     // Set the value of variable --blue to another value (in this case "lightblue")
     r.style.setProperty('--selectedObjectColor', selectedObjectColor);
-
-
-
+    //drawCanvasArray();
+    drawWalker();
 }
 
 function reloadMenu() {

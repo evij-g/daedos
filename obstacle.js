@@ -22,7 +22,10 @@ function createObstacleObjects(array) {
             obsWidth: parseInt(array[3]),
             obsHeight: parseInt(array[4]),
             obsColor: array[5],
-            obsSelected: false,
+
+            //edit mode feature
+            type: "obs"
+
         };
 
         obstacleArray.push(obs);
@@ -34,26 +37,6 @@ function createObstacleObjects(array) {
 
 
 
-//--------------------- selected object indication enhancement ----------------------
-
-function setSelectedObstacleColor() {
-    let obsColor = obstacleArray[selectedObstacle].obsColor;
-
-    obstacleArray[selectedObstacle].obsSelected = true; // visual reference override
-}
-
-function overrideAllObstaclesColorToWhite() { // This one should be called right before user press "play" and before the user selects a object
-    for (let obs = 0; obs < obstacleArray.length; obs++) {
-        obstacleArray[obs].obsColor = "white";
-    }
-}
-
-
-//--------------------- --------------------------------------------------------------
-
-
-
-
 
 function setObstaclesIntoWalkerArray() {
     for (let obs = 0; obs < obstacleArray.length; obs++) {
@@ -62,9 +45,11 @@ function setObstaclesIntoWalkerArray() {
         for (let y = 0; y < object.obsHeight; y++) {
             for (let x = 0; x < object.obsWidth; x++) {
                 let fragment = {
+                    obsIndex: object.obsIndex,
                     x: x + object.obsX,
                     y: y + object.obsY,
                     color: object.obsColor,
+                    type: object.type
                 };
                 setWalker(fragment); // inserts object into walkerArray
             }
@@ -91,7 +76,8 @@ function insertNewObstacle() {
         obsY: Math.trunc(canvasHeightMultiple / 2 - obsHeight / 2),
         obsWidth: obsWidth,
         obsHeight: obsHeight,
-        obsColor: selectedObjectColor, //selected-
+        obsColor: "white", //selected-
+        type: "obs"
     };
     obstacleArray.push(basicObstacle);
 
