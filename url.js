@@ -81,6 +81,12 @@ function setPropertiesFromURL() {
         canvasWidthMultiple = canvas.width / scale;
         canvasHeightMultiple = canvas.height / scale;
 
+        basicCell = {
+            type: "background",
+            color: canvasBackgroundColor
+        };
+
+
         walker = {
             startx: parameter.get("startx"),
             starty: parameter.get("starty"),
@@ -89,10 +95,7 @@ function setPropertiesFromURL() {
             type: "walker"
         };
 
-        basicCell = {
-            type: "background",
-            color: canvasBackgroundColor
-        };
+
 
 
 

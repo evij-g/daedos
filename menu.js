@@ -143,7 +143,7 @@ function resetButtonActions() {
 
 function setObjectEditMode(e) {
     obsSelectedEditMode = e;
-    console.log("Edit mode!");
+    console.log("Edit mode: " + e);
     drawWalker();
 }
 
@@ -160,18 +160,22 @@ function checkModifierButtons() {
         // event.target.classList.add("active");
 
         console.dir("modifier button clicked: " + event.target.id);
+        setObjectEditMode(true);
 
         switch (event.target.id) {
 
             case "addObs":
 
                 insertNewObstacle();
+                //updateURL();
                 reloadMenu();
                 console.log(obstacleArray);
                 break;
 
             case "removeObs":
+                console.log("remove selected Obstacle: " + selectedObstacle);
                 obstacleArray.splice(selectedObstacle, 1);
+                //emoveSelectedObstacle(selectedObstacle);
                 reloadMenu();
 
                 console.log(obstacleArray);
@@ -233,7 +237,8 @@ function checkModifierButtons() {
                 //resetCanvas();
                 break;
         }
-        setObjectEditMode(true);
+
+        getSelectedObstacleFromGUI();
         updateURL();
         resetButtonActions();
 
@@ -252,24 +257,12 @@ function createObstaclesRadiobuttonsFromURL() {
     // generate all radiobuttons and assign the color to the label from obstacleArray
 
     for (let obs = 0; obs < obstacleArray.length; obs++) {
+        //for (let obs = 1; obs <= countedObstacles; obs++) {
         let object = obstacleArray[obs];
+        console.log(object);
         let color = object.obsColor;
-        let last = (obs == 0) ? 'checked="checked"' : " ";
 
-        let radioString =
-            `
-            <label class="radio radio-before">
-                <span class="radio__input">
-                <input type="radio" name="obstacle" value="` + obs + `" ` + last + `>
-                <span class="radio__control"></span>
-                </span>
-                <span class="radio__label">
-                    <span class="radio__label_inner">
-                    <div class="radio__label_inner__object" style="background-color:` + color + `"></div>
-                        
-                    </span>
-                </span>
-            </label>`;
+        let radioString = `<label class="radio radio-before"><span class="radio__input"><input type="radio" name="obstacle" obsindex="` + obs + `"><span class="radio__control"></span></span><span class="radio__label"><span class="radio__label_inner"><div class="radio__label_inner__object" style="background-color:` + color + `"></div></span></span></label>`;
 
         // radioString="test";
 
@@ -278,39 +271,107 @@ function createObstaclesRadiobuttonsFromURL() {
 
     // add event listener to radiobuttons form
 
-    document.obstacleForm.addEventListener("change", getSelectedObstacleFromGUI);
+    //document.obstacleForm.addEventListener("change", getSelectedObstacleFromGUI);
+    // document.obstacleForm.addEventListener("click", getSelectedObstacleFromGUI);
+    console.log(obstacleForm);
+
+    for (RadioButton of obstacleForm.children) {
+        //RadioButton.Attributes.Add("onclick", "alert('hello');");
+        //console.log("radiobutton element: " + RadioButton);
+        RadioButton.onclick = getSelectedObstacleFromGUI;
+
+    }
 }
 
 
 
 function getSelectedObstacleFromGUI() {
 
-    let obstacleForm = document.getElementById("obstacleForm");
-    let radios = obstacleForm.elements.obstacle; //returns html collection where active radiobutton is "value"
 
+    console.log("this one");
+    console.log(this.childNodes.item(1));
+    console.log(this.getElementsByTagName("input").item(0).getAttribute("obsindex"));
 
+    selectedObstacle = parseInt((this.getElementsByTagName("input").item(0).getAttribute("obsindex")));
+    console.log("selected object:" + selectedObstacle);
     try {
 
-        selectedObstacle = radios.value; // sets the global selectedObstacle variable to active radiobutton-value
-
-        //obstacleArray[selectedObstacle].obsColor = selectedObstacleColor; // visual reference override works!
-
-        console.log("selected radiobutton: " + selectedObstacle);
-
+        //uncheck all radiobuttons 
         for (entry of obstacleForm.children) { //obstacleForm.children returns array iterator // zuerst wird die active-klasse von allen radiobuttons entfernt
             entry.classList.remove("checked");
-        } //danach setze die checked klasse auf den aktiven Radiobutton
-        let activeRadio = obstacleForm.children.item(selectedObstacle);
-        setSelectedObstacleRadioIndicatorColor();
+        }
+        //then set checked on clicked one
+        let activeRadio = item.parentElement.parentElement;
         activeRadio.classList.add("checked");
+
+        drawWalker();
+
+        // setSelectedObstacleRadioIndicatorColor(); //sets css variable
+
+
+
+        // setObjectEditMode(true);
+
+        // console.log(this.getElementsByTagName("input").item(0).getAttribute("obsindex"));
+        //selectedObstacle = (this.getElementsByTagName("input").item(0).getAttribute("obsindex"));
+
+        //let obstacleForm = document.getElementById("obstacleForm");
+        let radios = obstacleForm.elements.obstacle; //returns html collection where active radiobutton is "value"
+        //console.log(radios);
+
+        /* V2
+
+
+                for (let i = 0; i < radios.length; i++) {
+                    let item = radios[i];
+                    // console.log("obsIndex: " + item.getAttribute("obsindex") + " checked?: " + item.checked);
+                    //console.log(item);
+
+                    if (item.checked) {
+                        // selectedObstacle = item.getAttribute("obsindex");
+
+                        console.log(item.parentElement.parentElement);
+
+                        let activeRadio = item.parentElement.parentElement;
+
+
+                        setSelectedObstacleRadioIndicatorColor(); //sets css variable
+                        activeRadio.classList.add("checked");
+                    }
+                }
+        */
+
+
+
+
+
+        /*
+                selectedObstacle = radios.value; // sets the global selectedObstacle variable to active radiobutton-value
+                selectedObstacle = radios.attr("obsIndex");
+
+                //obstacleArray[selectedObstacle].obsColor = selectedObstacleColor; // visual reference override works!
+
+                console.log("selected radiobutton: " + selectedObstacle);
+
+                for (entry of obstacleForm.children) { //obstacleForm.children returns array iterator // zuerst wird die active-klasse von allen radiobuttons entfernt
+                    entry.classList.remove("checked");
+                }
+
+                //danach setze die checked klasse auf den aktiven Radiobutton
+                let activeRadio = obstacleForm.children.item(selectedObstacle);
+
+                setSelectedObstacleRadioIndicatorColor();
+                activeRadio.classList.add("checked");*/
+
     } catch (error) {
         console.log("no objects inserted!");
     }
 
 
-
+    //setSelectedObstacleRadioIndicatorColor(); //sets css variable
     //overrideAllObstaclesColorToWhite();
-    resetCanvas(); //there should be set the active object color 
+    //resetCanvas(); //there should be set the active object color 
+
     //drawWalker();
 }
 

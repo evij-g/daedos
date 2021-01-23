@@ -181,6 +181,8 @@ function drawWalker() {
                     break;
                 case "obs":
 
+                    //console.log(thisCell.obsIndex);
+
                     //edit mode feature
                     // durch den neu eingeführten "type" im Zellenobjekt kann ich präziser herausfinden, um welches objekt es sich handelt
                     // und demnach auch entscheiden, wie es gerendert werden soll
