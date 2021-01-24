@@ -3,7 +3,8 @@
 
 
 var obstacleArray = [];
-var selectedObstacle = 0;
+var selectedObstacleArrayIndex = 0;
+var selectedObstacleIdentifier = "";
 var selectedObjectColor = "violet";
 var countedObstacles = 0;
 
@@ -19,7 +20,7 @@ function createObstacleObjects(array) {
         // extract the values from the array and push them into an seperate object
 
         let obs = {
-            obsIndex: parseInt(array[0]),
+            obsIndex: array[0],
             obsX: parseInt(array[1]),
             obsY: parseInt(array[2]),
             obsWidth: parseInt(array[3]),
@@ -27,7 +28,8 @@ function createObstacleObjects(array) {
             obsColor: array[5],
 
             //edit mode feature
-            type: "obs"
+            type: "obs",
+            selected: false
 
         };
 
@@ -55,7 +57,8 @@ function setObstaclesIntoWalkerArray() {
                     x: x + object.obsX,
                     y: y + object.obsY,
                     color: object.obsColor,
-                    type: object.type
+                    type: object.type,
+                    selected: object.selected
                 };
                 setWalker(fragment); // inserts object into walkerArray
             }
@@ -69,51 +72,134 @@ function setObstaclesIntoWalkerArray() {
 
 
 
+function uuidv4() {
+    return 'xxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0,
+            v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 
 
 
 
-function insertNewObstacle() {
+
+function insertNewObstacleIntoArray() {
     let obsWidth = Math.trunc(canvasWidthMultiple * (10 / 100)); // 5%
     let obsHeight = Math.trunc(canvasHeightMultiple * (10 / 100)); //5%
     console.log("obstacleArrayLength: " + obstacleArray.length);
 
-    let newObsIndex = obstacleArray.length;
-    newObsIndex == 0 ? newObsIndex = 0 : newObsIndex++;
 
+    let firstObject = false;
+    obstacleArray.length == 0 ? firstObject = true : firstObject;
+
+
+    //reset the "selected" value to false of all elements in array
+    for (element of obstacleArray) {
+        element.selected = false;
+    }
+    // so that only the new inserted element will be the selected one
+
+    let newIndex = uuidv4();
     let basicObstacle = {
 
 
-        obsIndex: newObsIndex,
+        obsIndex: newIndex, //maybe generate a random number
         obsX: Math.trunc(canvasWidthMultiple / 2 - obsWidth / 2),
         obsY: Math.trunc(canvasHeightMultiple / 2 - obsHeight / 2),
         obsWidth: obsWidth,
         obsHeight: obsHeight,
         obsColor: "white", //selected-
-        type: "obs"
+        type: "obs",
+        selected: true
     };
     obstacleArray.push(basicObstacle);
+    console.log("inserted new Object with Identifier: " + basicObstacle.obsIndex);
 
+
+
+
+    //set the selected Object to the new inserted one
+    selectedObstacleIdentifier = newIndex;
+    console.log(selectedObstacleIdentifier);
+
+    return basicObstacle;
 }
 
 
-function removeSelectedObstacle(del) {
+function findIndexOfSelectedObstacleInArray(selected) {
+    let indexNumber = obstacleArray.findIndex(element => element.obsIndex == selected);
+    return indexNumber;
+}
+
+function returnSelectedObstacleFromArray(selected) {
+    let element = obstacleArray[findIndexOfSelectedObstacleInArray(selected)];
+    return element;
+}
 
 
-    //const result = inventory.find( fruit => fruit.name === 'cherries' );
-    let result = obstacleArray.find(element => element.obsIndex == del);
+function removeSelectedObstacleFromArray(del) {
+    obstacleArray.splice(del, 1);
+}
 
-    console.log(result) // { name: 'cherries', quantity: 5 }
+function moveObstacle(dir) {
+    let index = findIndexOfSelectedObstacleInArray(selectedObstacleIdentifier);
+    switch (dir) {
+        case "up":
+            obstacleArray[index].obsY--;
+            break;
+        case "down":
+            obstacleArray[index].obsY++;
+            break;
+        case "left":
+            obstacleArray[index].obsX--;
+            break;
+        case "right":
+            obstacleArray[index].obsX++;
+            break;
+    }
 
+}
 
-    /*
-        var j = 0;
-        for (var i = 0, l = obstacleArray.length; i < l; i++) {
-            console.log(obstacleArray[i]);
-            if (obstacleArray[i]. !== element) {
-                obstacleArray[j++] = obstacleArray[i];
+function transform(element, transform) {
+
+    switch (element) {
+        case "canvas":
+            switch (transform) {
+                case "x+":
+                    canvasWidthMultiple++;
+                    break;
+                case "x-":
+                    canvasWidthMultiple--;
+                    break;
+                case "y+":
+                    canvasHeightMultiple++;
+                    break;
+                case "y-":
+                    canvasHeightMultiple--;
+                    break;
             }
-        }
-        arr.length = j;
-    */
+            break;
+
+        case "obs":
+            let index = findIndexOfSelectedObstacleInArray(selectedObstacleIdentifier);
+
+            switch (transform) {
+
+                case "x+":
+                    obstacleArray[index].obsWidth++;
+
+                    break;
+                case "x-":
+                    obstacleArray[index].obsWidth--;
+                    break;
+                case "y+":
+                    obstacleArray[index].obsHeight++;
+                    break;
+                case "y-":
+                    obstacleArray[index].obsHeight--;
+                    break;
+            }
+            break;
+    }
 }

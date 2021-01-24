@@ -2,7 +2,7 @@
     --darkgrey: 102, 102, 102;
     --lightgrey: 149, 149, 149;
     --lightgrey-light: rgba(var(--lightgrey), 0.7);
-    --selectedObjectColor: blue;
+    --selectedObjectColor: orange;
 }
 
 @font-face {
@@ -216,6 +216,7 @@ canvas {
 .cross {
     display: grid;
     grid-template-columns: auto auto auto;
+    height: 150px;
 }
 
 .cross>div:nth-child(5) {

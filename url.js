@@ -120,23 +120,6 @@ function setPropertiesFromURL() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function updateURL() {
     let urlParams = new URLSearchParams(queryString);
 

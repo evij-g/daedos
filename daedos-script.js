@@ -186,9 +186,12 @@ function drawWalker() {
                     //edit mode feature
                     // durch den neu eingeführten "type" im Zellenobjekt kann ich präziser herausfinden, um welches objekt es sich handelt
                     // und demnach auch entscheiden, wie es gerendert werden soll
+                    // console.log(thisCell.selected ? "this cell is selected: " + thisCell.selected + " its color: " + thisCell.color : "this cell index: " + thisCell.obsIndex + " with color " + thisCell.color + " is not selected");
 
-                    if (obsSelectedEditMode == true && thisCell.type == "obs" && thisCell.obsIndex == selectedObstacle) {
-                        console.log("drawWalker: \t edit object: " + thisCell.obsIndex + "\t its color: " + thisCell.color);
+                    // if (obsSelectedEditMode == true && thisCell.type == "obs" && thisCell.obsIndex == selectedObstacle) {
+                    if (obsSelectedEditMode == true && thisCell.type == "obs" && thisCell.selected) {
+                        //console.log("drawWalker: \t edit object: " + thisCell.obsIndex + "\t its color: " + thisCell.color);
+
                         // wir sind nun im editmode
                         // jetzt wird gecheckt ob das objekt in der aktuellen zelle das aktive obstacle ist
                         // wenn ja, dann soll die farbe, in der es gerendert werden soll, mit der aktiven Edit-Farbe überschrieben werden.
@@ -812,6 +815,7 @@ function resetCanvas() {
     //setPropertiesFromURL();
     //overrideAllObstaclesColorToWhite(); //reset selected object color
     setObstaclesIntoWalkerArray();
+
     drawWalker();
 
 
