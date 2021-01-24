@@ -13,6 +13,8 @@ var canvasWidthMultiple;
 var canvasHeightMultiple;
 var canvasBackgroundColor;
 
+var basicCell = {};
+
 var canvasArray = [];
 
 var walkerCTX = ctx;
@@ -21,8 +23,6 @@ var walker = {};
 
 var walkerMatrixValues = {};
 
-var obstacleArray = [];
-var selectedObstacle = 0;
 
 walkerCTX.webkitImageSmoothingEnabled = true;
 walkerCTX.imageSmoothingEnabled = true;
@@ -36,6 +36,7 @@ var doAnim = false;
 // ###########################################################################################
 
 var startBtnValue = false;
+var obsSelectedEditMode = false;
 var noWay = false;
 
 var colorArray = ["#FF0000", "#00FF00", "#0000FF"];
@@ -46,7 +47,7 @@ var fps, fpsInterval, startTime, now, then, elapsed;
 
 let queryString;
 let initqueryString = "?width=1200&height=620&scale=10&bgcolor=black&startx=1&starty=1&startdir=down&linecolor=white&obs=1&obsx=5&obsy=16&obswidth=7&obsheight=5&obscolor=white&obs=3&obsx=26&obsy=40&obswidth=4&obsheight=15&obscolor=white&obs=3&obsx=64&obsy=49&obswidth=5&obsheight=12&obscolor=white";
-
+initqueryString = "?width=840&height=460&scale=10&bgcolor=black&startx=1&starty=1&startdir=down&linecolor=white&obs=1&obsx=5&obsy=16&obswidth=6&obsheight=3&obscolor=white&obs=3&obsx=26&obsy=29&obswidth=3&obsheight=10&obscolor=white&obs=3&obsx=51&obsy=38&obswidth=3&obsheight=7&obscolor=white";
 
 
 
@@ -62,11 +63,19 @@ function initValues() {
     canvasHeightMultiple = canvasHeight / scale;
     canvasBackgroundColor = "#FFFFFF";
 
+    basicCell = {
+        x: 0,
+        y: 0,
+        type: "background",
+        color: canvasBackgroundColor
+    };
+
     walker = {
         x: 2,
         y: 1,
         color: "#000000",
-        direction: "down"
+        direction: "down",
+        type: "walker"
     };
 }
 
@@ -147,12 +156,58 @@ function drawWalker() {
 
     for (var y = 0; y < canvasHeightMultiple; y++) {
         for (var x = 0; x < canvasWidthMultiple; x++) {
-            //if(walkerCanvasArray[y][x] != "walker"){
-            ctx.fillStyle = walkerCanvasArray[y][x];
-            //}else{
-            // ctx.fillStyle = walker.get("color");
-            // }
+            /* //if(walkerCanvasArray[y][x] != "walker"){
+             ctx.fillStyle = walkerCanvasArray[y][x].color;
+             //}else{
+             // ctx.fillStyle = walker.get("color");
+             // }
 
+             ctx.fillRect(x * scale, y * scale, scale, scale);
+             if (stroke) {
+                 ctx.strokeRect(x * scale, y * scale, scale, scale);
+             }
+             */
+
+            let thisCell = canvasArray[y][x]; //aktuelles Zellenobjekt
+
+
+            let cellColor = thisCell.color;
+
+            switch (thisCell.type) {
+                case "background" || "walker":
+                    cellColor = thisCell.color;
+
+
+                    break;
+                case "obs":
+
+                    //console.log(thisCell.obsIndex);
+
+                    //edit mode feature
+                    // durch den neu eingeführten "type" im Zellenobjekt kann ich präziser herausfinden, um welches objekt es sich handelt
+                    // und demnach auch entscheiden, wie es gerendert werden soll
+                    // console.log(thisCell.selected ? "this cell is selected: " + thisCell.selected + " its color: " + thisCell.color : "this cell index: " + thisCell.obsIndex + " with color " + thisCell.color + " is not selected");
+
+                    // if (obsSelectedEditMode == true && thisCell.type == "obs" && thisCell.obsIndex == selectedObstacle) {
+                    if (obsSelectedEditMode == true && thisCell.type == "obs" && thisCell.selected) {
+                        //console.log("drawWalker: \t edit object: " + thisCell.obsIndex + "\t its color: " + thisCell.color);
+
+                        // wir sind nun im editmode
+                        // jetzt wird gecheckt ob das objekt in der aktuellen zelle das aktive obstacle ist
+                        // wenn ja, dann soll die farbe, in der es gerendert werden soll, mit der aktiven Edit-Farbe überschrieben werden.
+                        cellColor = selectedObjectColor; // holt sich nur den Farbwert aus dem Zellobjekt
+                    } else {
+                        cellColor = thisCell.color;
+                    }
+                    break;
+
+
+            }
+
+
+            //console.log(cellColor);
+
+            ctx.fillStyle = cellColor;
             ctx.fillRect(x * scale, y * scale, scale, scale);
             if (stroke) {
                 ctx.strokeRect(x * scale, y * scale, scale, scale);
@@ -211,8 +266,11 @@ function initWalker() {
 
 
 
-function setWalker(fragment) {
-    walkerCanvasArray[fragment.y][fragment.x] = fragment.color;
+function setWalker(cell) {
+    //walkerCanvasArray[fragment.y][fragment.x] = fragment.color; //working!
+
+    // if instead of just filling the array with colors, fill it with the full object, i can determine if its a "walker"-cell, "object"-cell or free space
+    walkerCanvasArray[cell.y][cell.x] = cell;
 }
 
 
@@ -311,9 +369,11 @@ function checkWalkerMatrixValues() {
 
     try {
         tup =
-            walkerCanvasArray[walker.y - 2][walker.x - 1] === canvasBackgroundColor &&
-            walkerCanvasArray[walker.y - 2][walker.x] === canvasBackgroundColor &&
-            walkerCanvasArray[walker.y - 2][walker.x + 1] === canvasBackgroundColor ?
+            walkerCanvasArray[walker.y - 2][walker.x - 1].type === "background" &&
+            walkerCanvasArray[walker.y - 2][walker.x].type === "background" &&
+            walkerCanvasArray[walker.y - 2][walker.x + 1].type === "background" ?
+
+
             true :
             false;
     } catch (error) {
@@ -322,9 +382,9 @@ function checkWalkerMatrixValues() {
 
     try {
         tleft =
-            walkerCanvasArray[walker.y - 1][walker.x - 2] === canvasBackgroundColor &&
-            walkerCanvasArray[walker.y][walker.x - 2] === canvasBackgroundColor &&
-            walkerCanvasArray[walker.y + 1][walker.x - 2] === canvasBackgroundColor ?
+            walkerCanvasArray[walker.y - 1][walker.x - 2].type === "background" &&
+            walkerCanvasArray[walker.y][walker.x - 2].type === "background" &&
+            walkerCanvasArray[walker.y + 1][walker.x - 2].type === "background" ?
             true :
             false;
     } catch (error) {
@@ -333,9 +393,9 @@ function checkWalkerMatrixValues() {
 
     try {
         tdown =
-            walkerCanvasArray[walker.y + 2][walker.x - 1] === canvasBackgroundColor &&
-            walkerCanvasArray[walker.y + 2][walker.x] === canvasBackgroundColor &&
-            walkerCanvasArray[walker.y + 2][walker.x + 1] === canvasBackgroundColor ?
+            walkerCanvasArray[walker.y + 2][walker.x - 1].type === "background" &&
+            walkerCanvasArray[walker.y + 2][walker.x].type === "background" &&
+            walkerCanvasArray[walker.y + 2][walker.x + 1].type === "background" ?
             true :
             false;
     } catch (error) {
@@ -344,9 +404,9 @@ function checkWalkerMatrixValues() {
 
     try {
         tright =
-            walkerCanvasArray[walker.y - 1][walker.x + 2] === canvasBackgroundColor &&
-            walkerCanvasArray[walker.y][walker.x + 2] === canvasBackgroundColor &&
-            walkerCanvasArray[walker.y + 1][walker.x + 2] === canvasBackgroundColor ?
+            walkerCanvasArray[walker.y - 1][walker.x + 2].type === "background" &&
+            walkerCanvasArray[walker.y][walker.x + 2].type === "background" &&
+            walkerCanvasArray[walker.y + 1][walker.x + 2].type === "background" ?
             true :
             false;
     } catch (error) {
@@ -357,7 +417,7 @@ function checkWalkerMatrixValues() {
 
     try {
         tx1 =
-            walkerCanvasArray[walker.y - 2][walker.x - 2] === canvasBackgroundColor ?
+            walkerCanvasArray[walker.y - 2][walker.x - 2].type === "background" ?
             true :
             false;
     } catch (error) {
@@ -366,7 +426,7 @@ function checkWalkerMatrixValues() {
 
     try {
         tx2 =
-            walkerCanvasArray[walker.y + 2][walker.x - 2] === canvasBackgroundColor ?
+            walkerCanvasArray[walker.y + 2][walker.x - 2].type === "background" ?
             true :
             false;
     } catch (error) {
@@ -375,7 +435,7 @@ function checkWalkerMatrixValues() {
 
     try {
         tx3 =
-            walkerCanvasArray[walker.y + 2][walker.x + 2] === canvasBackgroundColor ?
+            walkerCanvasArray[walker.y + 2][walker.x + 2].type === "background" ?
             true :
             false;
     } catch (error) {
@@ -384,7 +444,7 @@ function checkWalkerMatrixValues() {
 
     try {
         tx4 =
-            walkerCanvasArray[walker.y - 2][walker.x + 2] === canvasBackgroundColor ?
+            walkerCanvasArray[walker.y - 2][walker.x + 2].type === "background" ?
             true :
             false;
     } catch (error) {
@@ -642,13 +702,21 @@ function initCanvasArray() {
     for (let y = 0; y < canvasHeightMultiple; y++) {
         canvasArray[y] = [];
         for (let x = 0; x < canvasWidthMultiple; x++) {
-            let color = canvasBackgroundColor;
+            /*let color = canvasBackgroundColor;
             let element = {
+                type: "background", //edit mode feature
                 x,
                 y,
                 color
+            };*/
+            //setCanvasArray(element);
+            basicCell = {
+                x: x,
+                y: y,
+                type: "background",
+                color: canvasBackgroundColor
             };
-            setCanvasArray(element);
+            setCanvasArray(basicCell);
         }
     }
 }
@@ -660,7 +728,12 @@ function initCanvasArray() {
 
 //set color in array field of given object variables (x,y,color)
 function setCanvasArray(e) {
-    canvasArray[e.y][e.x] = e.color;
+    //canvasArray[e.y][e.x] = e.color; //old version
+
+    //edit mode feature
+
+    canvasArray[e.y][e.x] = e; // fügt anstelle des reinen farbwerts ein Objekt in die Array Zelle ein.
+
 }
 
 
@@ -672,18 +745,49 @@ function setCanvasArray(e) {
 function drawCanvasArray() {
     for (let y = 0; y < canvasHeightMultiple; y++) {
         for (let x = 0; x < canvasWidthMultiple; x++) {
-            //console.log(" drawCanvasArray:\ty:"+y+" x:"+x+" color:"+canvasArray[y][x]);
 
-            // if(canvasArray[y][x] != "walker"){
-            ctx.fillStyle = canvasArray[y][x];
-            /* }else{
-              ctx.fillStyle ="black";
-            }*/
+            let thisCell = canvasArray[y][x]; //aktuelles Zellenobjekt
+
+
+            let cellColor = thisCell.color;
+
+            switch (thisCell.type) {
+                case "background" || "walker":
+                    cellColor = thisCell.color;
+
+
+                    break;
+                case "obs":
+
+
+                    //edit mode feature
+                    // durch den neu eingeführten "type" im Zellenobjekt kann ich präziser herausfinden, um welches objekt es sich handelt
+                    // und demnach auch entscheiden, wie es gerendert werden soll
+
+                    if (obsSelectedEditMode == true && thisCell.type == "obs" && thisCell.obsIndex == selectedObstacle) {
+                        console.log("DRAWCANVASARRAY: \t edit object: " + thisCell.obsIndex + "\t its color: " + thisCell.color);
+                        // wir sind nun im editmode
+                        // jetzt wird gecheckt ob das objekt in der aktuellen zelle das aktive obstacle ist
+                        // wenn ja, dann soll die farbe, in der es gerendert werden soll, mit der aktiven Edit-Farbe überschrieben werden.
+                        cellColor = selectedObjectColor; // holt sich nur den Farbwert aus dem Zellobjekt
+                    } else {
+                        cellColor = thisCell.color;
+                    }
+                    break;
+
+
+            }
+
+
+            //console.log(cellColor);
+
+            ctx.fillStyle = cellColor;
 
             ctx.fillRect(x * scale, y * scale, scale, scale);
             ctx.strokeRect(x * scale, y * scale, scale, scale);
         }
     }
+    //console.table(canvasArray);
 }
 
 
@@ -709,7 +813,9 @@ function resetCanvas() {
     walkerCTX.clearRect(0, 0, width, height);
 
     //setPropertiesFromURL();
+    //overrideAllObstaclesColorToWhite(); //reset selected object color
     setObstaclesIntoWalkerArray();
+
     drawWalker();
 
 

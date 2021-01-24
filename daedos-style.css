@@ -2,6 +2,7 @@
     --darkgrey: 102, 102, 102;
     --lightgrey: 149, 149, 149;
     --lightgrey-light: rgba(var(--lightgrey), 0.7);
+    --selectedObjectColor: orange;
 }
 
 @font-face {
@@ -48,6 +49,7 @@ body {
     font-size: 16px;
     text-transform: uppercase;
     width: fit-content;
+    width: auto;
     margin-left: auto;
     margin-right: auto;
 }
@@ -224,6 +226,7 @@ canvas {
 .cross {
     display: grid;
     grid-template-columns: auto auto auto;
+    height: 150px;
 }
 
 .cross>div:nth-child(5) {
@@ -260,33 +263,10 @@ canvas {
     text-transform: uppercase;
     font-size: 12px;
     line-height: .5;
-    /* border: none;
-    background-color: rgb(var(--darkgrey));
-    background-size: 70%;
-    background-repeat: no-repeat;
-    background-position: center;
-    font-family: 'Press Start 2P';
-    color: black;
-    text-transform: uppercase;
-    font-size: 16px;
-    margin: 5px;
-    height: 45px;
-    min-width: 45px;
-    line-height: .5;
-    min-width: 45px;
-    min-height: 45px;
-    padding: 20px;
-    cursor: pointer; */
 }
 
 #daedos-menu * button:hover {
     box-shadow: white 2px 2px;
-}
-
-#daedos-menu * button:active {
-    /* background-color: rgb(var(--lightgrey));
-    box-shadow: inset 2px 2px rgb(var(--darkgrey)), white 2px 2px;
-    color: white; */
 }
 
 button.active {
@@ -343,11 +323,6 @@ button.active {
 
 #sizeCanvasButton {
     background-image: url(icons/canvas-size.png);
-}
-
-.radio__label_inner>svg {
-    width: 30px;
-    height: 30px;
 }
 
 
@@ -453,6 +428,22 @@ label.radio {
 .radio-before input:checked+.radio__control::before {
     transform: scale(1);
 }
+
+
+/*--------------------------------------------------------------------------------------------------------- */
+
+.radio__label_inner__object {
+    display: block;
+    width: 30px;
+    height: 30px;
+}
+
+.radio.radio-before.checked * .radio__label_inner__object {
+    background-color: var(--selectedObjectColor)!important;
+}
+
+
+/*--------------------------------------------------------------------------------------------------------- */
 
 .radio__control {
     display: block;

@@ -51,7 +51,7 @@ function checkConsoleButtons() {
                 document.getElementById("startButton").classList.add("blinkingBackground");
                 document.getElementById("pauseButton").classList.remove("blinkingBackground", "noWay");
 
-
+                setObjectEditMode(false);
                 startAnimating();
 
                 break;
@@ -60,6 +60,7 @@ function checkConsoleButtons() {
                 console.log("pause animatiion");
 
                 startBtnValue = false;
+                setObjectEditMode(false);
 
                 document.getElementById("startButton").classList.remove("blinkingBackground");
                 document.getElementById("pauseButton").classList.add("blinkingBackground");
@@ -69,7 +70,7 @@ function checkConsoleButtons() {
 
             case "resetButton":
                 console.log("stop and reset animatiion");
-
+                setObjectEditMode(false);
                 resetButtonActions();
 
 
@@ -81,6 +82,7 @@ function checkConsoleButtons() {
 
             case "shareButton":
                 shareButtonActions();
+                setObjectEditMode(false);
 
                 break;
 
@@ -89,6 +91,7 @@ function checkConsoleButtons() {
                 document.getElementById("positionObj").classList.remove("mod-active");
                 document.getElementById("sizeObj").classList.remove("mod-active");
                 document.getElementById("canvasSize").classList.remove("mod-active");
+                setObjectEditMode(true);
                 break;
 
             case "moveObjButton":
@@ -96,6 +99,7 @@ function checkConsoleButtons() {
                 document.getElementById("positionObj").classList.add("mod-active");
                 document.getElementById("sizeObj").classList.remove("mod-active");
                 document.getElementById("canvasSize").classList.remove("mod-active");
+                setObjectEditMode(true);
                 break;
 
             case "sizeObjButton":
@@ -103,6 +107,7 @@ function checkConsoleButtons() {
                 document.getElementById("positionObj").classList.remove("mod-active");
                 document.getElementById("sizeObj").classList.add("mod-active");
                 document.getElementById("canvasSize").classList.remove("mod-active");
+                setObjectEditMode(true);
                 break;
 
             case "sizeCanvasButton":
@@ -110,18 +115,22 @@ function checkConsoleButtons() {
                 document.getElementById("positionObj").classList.remove("mod-active");
                 document.getElementById("sizeObj").classList.remove("mod-active");
                 document.getElementById("canvasSize").classList.add("mod-active");
+                setObjectEditMode(true);
                 break;
 
         }
 
     })
 
+
 }
 
 function resetButtonActions() {
     startBtnValue = false;
 
+
     document.getElementById("startButton").classList.remove("blinkingBackground");
+    document.getElementById("pauseButton").classList.remove("blinkingBackground", "blinkBoxshadow");
     document.getElementById("resetButton").classList.remove("blinkingBackground", "blinkBoxshadow");
 
 
@@ -131,20 +140,295 @@ function resetButtonActions() {
     noWay = false;
 
     resetCanvas();
+    drawWalker();
 }
+
+function setObjectEditMode(e) {
+    obsSelectedEditMode = e;
+    console.log("Edit mode: " + e);
+    e ? resetButtonActions() : "";
+}
+
+
+
+function checkModifierButtons() {
+    const wrapper = document.getElementById("modifiers");
+    wrapper.addEventListener('click', (event) => {
+        const isButton = event.target.nodeName === 'BUTTON';
+        if (!isButton) {
+            return;
+        }
+
+        // event.target.classList.add("active");
+
+        console.dir("modifier button clicked: " + event.target.id);
+
+
+        switch (event.target.id) {
+
+            case "addObs":
+
+                insertOneNewRadiobutton(insertNewObstacleIntoArray());
+
+                //getSelectedObstacleFromGUI();
+                //reloadMenu(); //reload menu generiert alle radiobuttons neu, aber eigentlich möchte ich nur ein neues element hinzufügen
+                //createObstaclesRadiobuttonsFromURL();
+                setActiveRadiobutton();
+                console.table(obstacleArray);
+                break;
+
+            case "removeObs":
+                console.log("to remove: index = " + selectedObstacleArrayIndex + " id = " + selectedObstacleIdentifier);
+                console.table(obstacleArray);
+                removeSelectedObstacleFromArray(selectedObstacleArrayIndex);
+                removeSelectedObstacleRadiobuttonFromGUI(selectedObstacleIdentifier);
+                console.log("element removed");
+                console.table(obstacleArray);
+
+                setActiveRadiobutton();
+                console.table(obstacleArray);
+                break;
+
+
+
+
+
+
+            case "upPosButton":
+                moveObstacle("up");
+                break;
+            case "downPosButton":
+                moveObstacle("down");
+                break;
+            case "leftPosButton":
+                moveObstacle("left");
+                break;
+            case "rightPosButton":
+                moveObstacle("right");
+                break;
+
+
+
+
+            case "sizeXPlusButton":
+                transform("obs", "x+");
+                break;
+
+            case "sizeXMinusButton":
+                transform("obs", "x-");
+                break;
+
+            case "sizeYPlusButton":
+                transform("obs", "y+");
+                break;
+
+            case "sizeYMinusButton":
+                transform("obs", "y-");
+                break;
+
+
+
+
+            case "canvasSizeXPlusButton":
+                transform("canvas", "x+");
+                break;
+
+            case "canvasSizeXMinusButton":
+                transform("canvas", "x-");
+                break;
+
+            case "canvasSizeYPlusButton":
+                transform("canvas", "y+");
+                break;
+
+            case "canvasSizeYMinusButton":
+                transform("canvas", "y-");
+                break;
+        }
+
+
+
+        updateURL();
+        resetCanvas();
+
+        setObjectEditMode(true);
+
+    })
+
+
+
+}
+
+
+//############ GUI ##################################################################################
+
+
+function insertOneNewRadiobutton(object) {
+
+    let checked = object.selected ? " checked" : "";
+
+
+    //append a new radiobutton to the gui
+
+
+    let radioString = `
+        <label class="radio radio-before" onclick="getSelectedObstacleFromGUI(this)" id="` + object.obsIndex + `">
+            <span class="radio__input">
+                <input type="radio" name="obstacle"  obsindex="` + object.obsIndex + `"` + checked + `>
+                <span class="radio__control"></span>
+            </span>
+            <span class="radio__label">
+                <span class="radio__label_inner">
+                    <div class="radio__label_inner__object" style="background-color:` + object.obsColor + `"></div>
+                </span>
+            </span>
+        </label>`;
+
+
+
+    document.getElementById("obstacleForm").innerHTML += radioString;
+}
+
+function removeSelectedObstacleRadiobuttonFromGUI(selectedobject) {
+    try {
+        let del = document.getElementById(selectedobject);
+        del.remove();
+        console.log("object " + selectedobject + " removed");
+        setActiveRadiobutton();
+    } catch (error) {
+        window.alert("nothing to delete");
+    }
+
+
+}
+
+function createObstaclesRadiobuttonsFromURL() {
+    // generate all radiobuttons and assign the color to the label from obstacleArray
+
+    for (let obs = 0; obs < obstacleArray.length; obs++) {
+
+        insertOneNewRadiobutton(obstacleArray[obs]);
+
+    }
+
+}
+
+
+
+function getSelectedObstacleFromGUI(e) {
+    setObjectEditMode(true);
+    console.log(e.id);
+
+
+    try {
+        selectedObstacleIdentifier = e.id;
+        selectedObstacleArrayIndex = findIndexOfSelectedObstacleInArray(selectedObstacleIdentifier); //find the index in obstacleArray of selected object
+        console.log("selected object:" + selectedObstacleIdentifier);
+
+        //then update the values of the array
+
+        //fist deselect all object elements of array 
+        for (object of obstacleArray) {
+            if (object.obsIndex == selectedObstacleIdentifier) {
+                object.selected = true;
+            } else {
+                object.selected = false;
+            }
+        }
+
+    } catch (err) {
+        console.trace("there are no Objects");
+
+    }
+
+    setSelectedObstacleRadioIndicatorColor(selectedObstacleIdentifier);
+}
+
+
+function setActiveRadiobutton() {
+    console.log("id before: " + selectedObstacleIdentifier);
+    try {
+        console.log("try");
+        selectedObstacleIdentifier = obstacleArray[obstacleArray.length - 1].obsIndex;
+        obstacleArray[obstacleArray.length - 1].selected = true;
+        selectedObstacleArrayIndex = findIndexOfSelectedObstacleInArray(selectedObstacleIdentifier); //find the index in obstacleArray of selected object
+        document.getElementById(selectedObstacleIdentifier).getElementsByTagName("input").item(0).checked = true;
+        setSelectedObstacleRadioIndicatorColor(selectedObstacleIdentifier);
+
+    } catch (error) {
+        // if we removed one object, the selectedObstaceIdentifier is no more present, 
+        // so we have so set it to the last element in our array
+        console.log("catch");
+        try {
+            selectedObstacleIdentifier = obstacleArray[obstacleArray.length - 1].obsIndex;
+            selectedObstacleArrayIndex = findIndexOfSelectedObstacleInArray(selectedObstacleIdentifier); //find the index in obstacleArray of selected object
+            obstacleArray[obstacleArray.length - 1].selected = true;
+            setSelectedObstacleRadioIndicatorColor(selectedObstacleIdentifier);
+        } catch (error) {
+            console.log("no objects to delete");
+        }
+
+
+    }
+}
+
+
+
+
+function setSelectedObstacleRadioIndicatorColor(element) { //override the color of the active radiobutton-object 
+
+    let r = document.documentElement;
+
+    // Set the value of variable --blue to another value (in this case "violet")
+    r.style.setProperty('--selectedObjectColor', selectedObjectColor);
+
+    //remove checked class from radiobuttons
+    for (entry of obstacleForm.children) { //obstacleForm.children returns array iterator // zuerst wird die active-klasse von allen radiobuttons entfernt
+        entry.classList.remove("checked");
+    }
+    let activeRadio = obstacleForm.children.namedItem(element);
+    activeRadio.classList.add("checked");
+    activeRadio.getElementsByTagName("input").item(0).checked = true;
+
+    resetCanvas();
+    drawWalker();
+}
+
+function reloadMenu() {
+    document.getElementById("obstacleForm").innerHTML = "";
+    createObstaclesRadiobuttonsFromURL();
+}
+
+function noWayEvent() {
+    console.log("NO WAY OUT");
+    heading.classList.toggle("blinkingBackgroundHeading");
+
+    //heading.classList.add("blinkBoxshadow");
+    let resetbtn = document.getElementById("resetButton");
+    resetbtn.classList.add("blinkBoxshadow");
+    resetbtn.classList.remove("active");
+
+    let startbtn = document.getElementById("startButton");
+    startbtn.classList.remove("blinkingBackground");
+    startbtn.classList.remove("active");
+
+
+
+}
+
+
+
+/* ################################## SHARE BUTTONS ########################################### */
+
+
 
 function shareButtonActions() {
     updateURL();
-    //document.getElementById("menu").classList.remove("showMenu");
-    //let title = document.getElementById("daedos-title").innerText;
-    //console.log(title);
+
     const title = document.title;
 
 
-    const url =
-        // (document.querySelector("link[rel=canonical]") &&
-        //    document.querySelector("link[rel=canonical]").href) ||
-        window.location.href;
+    const url = window.location.href;
     if (navigator.share) {
         navigator
             .share({
@@ -169,12 +453,9 @@ function shareButtonActions() {
 
 
 function popUpMessage() {
-    //const title = document.getElementById("daedos-title").textContent;
+
     const title = document.title;
-    const url =
-        // (document.querySelector("link[rel=canonical]") &&
-        //     document.querySelector("link[rel=canonical]").href) ||
-        window.location.href;
+    const url = window.location.href;
 
     var dummy = document.createElement("input"),
         text = window.location.href;
@@ -184,138 +465,4 @@ function popUpMessage() {
     document.execCommand("copy");
     document.body.removeChild(dummy);
     alert("Link copied please open your messenger and paste to send");
-}
-
-
-function checkModifierButtons() {
-    const wrapper = document.getElementById("modifiers");
-    wrapper.addEventListener('click', (event) => {
-        const isButton = event.target.nodeName === 'BUTTON';
-        if (!isButton) {
-            return;
-        }
-
-        // event.target.classList.add("active");
-
-        console.dir("modifier button clicked: " + event.target.id);
-
-        switch (event.target.id) {
-
-            case "addObs":
-
-                insertNewObstacle();
-                reloadMenu();
-                console.log(obstacleArray);
-                break;
-
-            case "removeObs":
-                obstacleArray.splice(selectedObstacle, 1);
-                reloadMenu();
-
-                console.log(obstacleArray);
-
-                break;
-
-
-
-
-
-
-            case "upPosButton":
-                obstacleArray[selectedObstacle].obsY--;
-                break;
-            case "downPosButton":
-                obstacleArray[selectedObstacle].obsY++;
-                break;
-            case "leftPosButton":
-                obstacleArray[selectedObstacle].obsX--;
-                break;
-            case "rightPosButton":
-                obstacleArray[selectedObstacle].obsX++;
-                break;
-
-
-
-
-            case "sizeXPlusButton":
-                obstacleArray[selectedObstacle].obsWidth++;
-                break;
-            case "sizeXMinusButton":
-                obstacleArray[selectedObstacle].obsWidth--;
-                break;
-            case "sizeYPlusButton":
-                obstacleArray[selectedObstacle].obsHeight++;
-                break;
-            case "sizeYMinusButton":
-                obstacleArray[selectedObstacle].obsHeight--;
-                break;
-
-
-
-
-            case "canvasSizeXPlusButton":
-                canvasWidthMultiple++;
-                //resetCanvas();
-                break;
-            case "canvasSizeXMinusButton":
-                canvasWidthMultiple--;
-                //resetCanvas();
-                break;
-            case "canvasSizeYPlusButton":
-                canvasHeightMultiple++;
-                //resetCanvas();
-                break;
-            case "canvasSizeYMinusButton":
-                canvasHeightMultiple--;
-                //resetCanvas();
-                break;
-        }
-        updateURL();
-        resetButtonActions();
-
-
-    })
-
-
-
-}
-
-
-//############ GUI ##################################################################################
-
-
-function getSelectedObstacleFromGUI() {
-    //
-
-    const radiobuttons = document.querySelectorAll('input[name="obstacle"]');
-
-    for (const button of radiobuttons) {
-        if (button.checked) {
-            selectedObstacle = button.value;
-            console.log(selectedObstacle);
-            break;
-        }
-    }
-}
-
-function reloadMenu() {
-    document.getElementById("obstacleForm").innerHTML = "";
-    createObstaclesRadiobuttonsFromURL();
-}
-
-function noWayEvent() {
-    console.log("NO WAY OUT");
-    heading.classList.toggle("blinkingBackgroundHeading");
-
-    //heading.classList.add("blinkBoxshadow");
-    let resetbtn = document.getElementById("resetButton");
-    resetbtn.classList.add("blinkBoxshadow");
-    resetbtn.classList.remove("active");
-
-    let startbtn = document.getElementById("startButton");
-    startbtn.classList.remove("blinkingBackground");
-    startbtn.classList.remove("active");
-
-
-
 }
