@@ -151,113 +151,6 @@ function setObjectEditMode(e) {
 
 
 
-function checkModifierButtons() {
-    const wrapper = document.getElementById("modifiers");
-    wrapper.addEventListener('click', (event) => {
-        const isButton = event.target.nodeName === 'BUTTON';
-        if (!isButton) {
-            return;
-        }
-
-        // event.target.classList.add("active");
-
-        console.dir("modifier button clicked: " + event.target.id);
-
-
-        switch (event.target.id) {
-
-            case "addObs":
-
-                insertOneNewRadiobutton(insertNewObstacleIntoArray());
-
-                //getSelectedObstacleFromGUI();
-                //reloadMenu(); //reload menu generiert alle radiobuttons neu, aber eigentlich möchte ich nur ein neues element hinzufügen
-                //createObstaclesRadiobuttonsFromURL();
-                setActiveRadiobutton();
-                console.table(obstacleArray);
-                break;
-
-            case "removeObs":
-                console.log("to remove: index = " + selectedObstacleArrayIndex + " id = " + selectedObstacleIdentifier);
-                console.table(obstacleArray);
-                removeSelectedObstacleFromArray(selectedObstacleArrayIndex);
-                removeSelectedObstacleRadiobuttonFromGUI(selectedObstacleIdentifier);
-                console.log("element removed");
-                console.table(obstacleArray);
-
-                setActiveRadiobutton();
-                console.table(obstacleArray);
-                break;
-
-
-
-
-
-
-            case "upPosButton":
-                moveObstacle("up");
-                break;
-            case "downPosButton":
-                moveObstacle("down");
-                break;
-            case "leftPosButton":
-                moveObstacle("left");
-                break;
-            case "rightPosButton":
-                moveObstacle("right");
-                break;
-
-
-
-
-            case "sizeXPlusButton":
-                transform("obs", "x+");
-                break;
-
-            case "sizeXMinusButton":
-                transform("obs", "x-");
-                break;
-
-            case "sizeYPlusButton":
-                transform("obs", "y+");
-                break;
-
-            case "sizeYMinusButton":
-                transform("obs", "y-");
-                break;
-
-
-
-
-            case "canvasSizeXPlusButton":
-                transform("canvas", "x+");
-                break;
-
-            case "canvasSizeXMinusButton":
-                transform("canvas", "x-");
-                break;
-
-            case "canvasSizeYPlusButton":
-                transform("canvas", "y+");
-                break;
-
-            case "canvasSizeYMinusButton":
-                transform("canvas", "y-");
-                break;
-        }
-
-
-
-        updateURL();
-        resetCanvas();
-
-        setObjectEditMode(true);
-
-    })
-
-
-
-}
 
 
 //############ GUI ##################################################################################
@@ -465,4 +358,207 @@ function popUpMessage() {
     document.execCommand("copy");
     document.body.removeChild(dummy);
     alert("Link copied please open your messenger and paste to send");
+}
+
+
+
+
+
+
+//######################### ENABLE LONG PRESS ON MODIFICATOR BUTTONS ###########
+function checkModifierButtons() {
+    const wrapper = document.getElementById("modifiers");
+
+    // Listening for the mouse and touch events 
+    wrapper.addEventListener("click", modifierButtonsEvents, false);
+    wrapper.addEventListener("mousedown", toggleOn, false);
+    wrapper.addEventListener("mouseup", toggleOff, false);
+    wrapper.addEventListener("mouseleave", toggleOff, false);
+
+    wrapper.addEventListener("touchstart", toggleOn, false);
+    wrapper.addEventListener("touchend", toggleOff, false);
+    wrapper.addEventListener("pressHold", toggleOn, false);
+
+
+}
+
+let timerID;
+counter = 0;
+
+let pressHoldEvent = new CustomEvent("pressHold");
+
+// Increase or decreae value to adjust how long
+// one should keep pressing down before the pressHold
+// event fires
+let pressHoldDuration = 50;
+
+
+
+
+
+
+// function trigger(e) {
+
+//     let tid = 0;
+//     let speed = 300;
+//     e.mousedown = ThingToDo();
+
+// }
+
+
+var tid = 0;
+var speed = 200;
+var eve = "";
+var mousedownFired = false;
+
+function toggleOn(e) {
+    const isButton = e.target.nodeName === 'BUTTON';
+    if (!isButton) {
+        return;
+    }
+    //e.stopPropagation();
+    eve = e.target.id;
+    mousedownFired = true;
+    console.log("mousedownFired: " + e);
+    if (tid == 0) {
+        tid = setInterval(ThingToDo, speed);
+    } else {
+        console.log("do nothing");
+    }
+}
+
+function toggleOff() {
+    if (tid != 0) {
+        clearInterval(tid);
+        tid = 0;
+    }
+    mousedownFired = true;
+}
+
+function ThingToDo() {
+    // const isButton = e.target.nodeName === 'BUTTON';
+    // if (!isButton) {
+    //     return;
+    // }
+    if (mousedownFired) {
+        mousedownFired = false;
+        return;
+    }
+    console.log("event:" + eve);
+    modifierButtonsEvents(eve);
+}
+
+
+
+
+// function holdit(e) {
+//     var start = 500;
+
+//     var t;
+
+//     var repeat = function() {
+
+//         t = setTimeout(repeat, start);
+//         console.log(e);
+//     }
+
+//     e.mousedown = function() {
+//         console.log("mouse down");
+//         repeat();
+//     }
+
+//     e.mouseup = function() {
+//         clearTimeout(t);
+//     }
+// }
+
+
+function modifierButtonsEvents(event) {
+    let buttonEvent = event;
+    console.log(buttonEvent);
+    try {
+        const isButton = event.target.nodeName === 'BUTTON';
+        if (!isButton) {
+            return;
+        }
+        buttonEvent = event.target.id;
+    } catch (error) {
+        console.log("longpress");
+
+    }
+    switch (buttonEvent) {
+
+        case "addObs":
+
+            insertOneNewRadiobutton(insertNewObstacleIntoArray());
+            setActiveRadiobutton();
+            break;
+
+        case "removeObs":
+            removeSelectedObstacleFromArray(selectedObstacleArrayIndex);
+            removeSelectedObstacleRadiobuttonFromGUI(selectedObstacleIdentifier);
+            setActiveRadiobutton();
+            break;
+
+
+
+        case "upPosButton":
+            moveObstacle("up");
+            break;
+        case "downPosButton":
+            moveObstacle("down");
+            break;
+        case "leftPosButton":
+            moveObstacle("left");
+            break;
+        case "rightPosButton":
+            moveObstacle("right");
+            break;
+
+
+
+        case "sizeXPlusButton":
+            transform("obs", "x+");
+            break;
+
+        case "sizeXMinusButton":
+            transform("obs", "x-");
+            break;
+
+        case "sizeYPlusButton":
+            transform("obs", "y+");
+            break;
+
+        case "sizeYMinusButton":
+            transform("obs", "y-");
+            break;
+
+
+
+
+        case "canvasSizeXPlusButton":
+            transform("canvas", "x+");
+            break;
+
+        case "canvasSizeXMinusButton":
+            transform("canvas", "x-");
+            break;
+
+        case "canvasSizeYPlusButton":
+            transform("canvas", "y+");
+            break;
+
+        case "canvasSizeYMinusButton":
+            transform("canvas", "y-");
+            break;
+    }
+
+
+
+    updateURL();
+    resetCanvas();
+
+    setObjectEditMode(true);
+
+
 }
