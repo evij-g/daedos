@@ -53,8 +53,8 @@ var fps, fpsInterval, startTime, now, then, elapsed;
 
 let queryString;
 let initqueryString = "?width=1200&height=620&scale=10&bgcolor=black&startx=1&starty=1&startdir=down&linecolor=white&obs=1&obsx=5&obsy=16&obswidth=7&obsheight=5&obscolor=white&obs=3&obsx=26&obsy=40&obswidth=4&obsheight=15&obscolor=white&obs=3&obsx=64&obsy=49&obswidth=5&obsheight=12&obscolor=white";
-initqueryString = "?width=840&height=460&scale=10&bgcolor=black&startx=1&starty=1&startdir=down&linecolor=white&obs=1&obsx=5&obsy=16&obswidth=6&obsheight=3&obscolor=white&obs=3&obsx=26&obsy=29&obswidth=3&obsheight=10&obscolor=white&obs=3&obsx=51&obsy=38&obswidth=3&obsheight=7&obscolor=white";
-
+initqueryString = "?width=840&height=460&scale=10&bgcolor=black&startx=1&starty=1&startdir=down&linecolor=white&obs=1&obsx=5&obsy=16&obswidth=6&obsheight=3&obscolor=white&obs=2&obsx=26&obsy=29&obswidth=3&obsheight=10&obscolor=white&obs=3&obsx=51&obsy=38&obswidth=3&obsheight=7&obscolor=white";
+initqueryString = "?width=770&height=460&scale=10&bgcolor=black&startx=1&starty=1&startdir=down&linecolor=white&obs=1&obsx=5&obsy=16&obswidth=6&obsheight=3&obscolor=white&obs=2&obsx=26&obsy=26&obswidth=3&obsheight=9&obscolor=white&obs=3&obsx=47&obsy=34&obswidth=3&obsheight=7&obscolor=white";
 
 
 
