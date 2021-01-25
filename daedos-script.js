@@ -1,5 +1,5 @@
 let version = document.getElementsByTagName("version");
-version.item(0).textContent = "V.1.3.0 24-01-2021";
+version.item(0).textContent = "V.1.3.2 25-01-2021";
 
 //disable all console logs!
 console.log = function() {};
