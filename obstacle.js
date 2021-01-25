@@ -37,8 +37,7 @@ function createObstacleObjects(array) {
         array.splice(0, 6); //vorher: splice(0,6) jetzt (0,7) wegen dem "type"
     }
 
-    //set the first object as selected for starting right away the modification 
-    obstacleArray[0].selected = true;
+
 
     //selectedObstacle = countedObstacles; //set selected object to last inserted
     console.log(obstacleArray);
@@ -67,12 +66,23 @@ function setObstaclesIntoWalkerArray() {
             }
         }
     }
+
+    //set the first object as selected for starting right away the modification 
+
+
     console.log("obstacles placed");
 
 }
 
 
+function presetActiveObject() {
+    let firstObject = obstacleArray[0];
+    firstObject.selected = true;
+    selectedObstacleIdentifier = firstObject.obsIndex;
+    selectedObstacleArrayIndex = 0;
+    setSelectedObstacleRadioIndicatorColor(selectedObstacleIdentifier);
 
+}
 
 
 function uuidv4() {
