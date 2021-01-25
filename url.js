@@ -3,6 +3,11 @@
 // The URL contains all the variables set to create a specific image.
 // If all values are communicated via the URL, the nice "LABYRs" can be conveniently "saved" and "shared".
 
+
+
+
+
+
 function getUrlParameter() {
     //TEST-STRING
     //queryString="?width=500&height=400&scale=10&bgcolor=white&startx=2&starty=1&startdir=down&linecolor=black&obs=1&obsx=5&obsy=6&obswidth=4&obsheight=4&obscolor=red&obs=2&obsx=30&obsy=26&obswidth=5&obsheight=8&obscolor=blue";
@@ -123,7 +128,7 @@ function setPropertiesFromURL() {
 function updateURL() {
     let urlParams = new URLSearchParams(queryString);
 
-    let newURL = "";
+    // let newURL = "";
 
     urlParams.set("width", canvas.width);
     urlParams.set("height", canvas.height);
@@ -156,19 +161,29 @@ function updateURL() {
     }
 
     if (history.pushState) {
-        newurl =
-            window.location.protocol +
-            "//" +
-            window.location.host +
-            window.location.pathname +
-            "?" +
-            urlParams.toString();
-        window.history.replaceState({
-            path: newurl
-        }, "", newurl);
-        //location.href=newurl;
+        newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + urlParams.toString();
+
+        window.history.replaceState({ path: newurl }, "", newurl);
+
+
+
     }
 
-    console.log("url updated");
+    console.trace("url updated");
     return newurl;
 }
+
+
+
+
+//############## add current State to browser history and if clicked on forward or backward button, reload the page
+
+
+function appendCurrentURLtoHistory(current) {
+    current = current.toString();
+    history.pushState({ path: current }, null, current);
+}
+
+window.addEventListener('popstate', function(e) {
+    location.reload(e.target);
+});

@@ -44,7 +44,7 @@ function checkConsoleButtons() {
 
         switch (event.target.id) {
             case "startButton":
-                console.log("start animatiion");
+                console.log("start animation");
 
                 startBtnValue = true;
 
@@ -53,6 +53,7 @@ function checkConsoleButtons() {
 
                 setObjectEditMode(false);
                 startAnimating();
+                appendCurrentURLtoHistory(updateURL());
 
                 break;
 
@@ -407,7 +408,6 @@ let pressHoldDuration = 50;
 
 
 var tid = 0;
-var speed = 200;
 var eve = "";
 var mousedownFired = false;
 
@@ -421,7 +421,7 @@ function toggleOn(e) {
     mousedownFired = true;
     console.log("mousedownFired: " + e);
     if (tid == 0) {
-        tid = setInterval(ThingToDo, speed);
+        tid = setInterval(ThingToDo, obsMoveSpeed);
     } else {
         console.log("do nothing");
     }

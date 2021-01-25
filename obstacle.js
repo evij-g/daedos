@@ -7,7 +7,7 @@ var selectedObstacleArrayIndex = 0;
 var selectedObstacleIdentifier = "";
 var selectedObjectColor = "violet";
 var countedObstacles = 0;
-
+var obsMoveSpeed = 120;
 
 
 function createObstacleObjects(array) {
