@@ -78,9 +78,6 @@ function checkConsoleButtons() {
 
                 break;
 
-                // case "menuButton":
-                //     document.getElementById("daedos-menu").classList.toggle("showMenu");
-                //     break;
 
             case "shareButton":
                 shareButtonActions();
@@ -94,7 +91,7 @@ function checkConsoleButtons() {
                 document.getElementById("sizeObj").classList.remove("mod-active");
                 document.getElementById("canvasSize").classList.remove("mod-active");
                 setObjectEditMode(true);
-                setActiveRadiobutton();
+
                 break;
 
             case "moveObjButton":
@@ -103,7 +100,7 @@ function checkConsoleButtons() {
                 document.getElementById("sizeObj").classList.remove("mod-active");
                 document.getElementById("canvasSize").classList.remove("mod-active");
                 setObjectEditMode(true);
-                setActiveRadiobutton();
+
                 break;
 
             case "sizeObjButton":
@@ -112,7 +109,7 @@ function checkConsoleButtons() {
                 document.getElementById("sizeObj").classList.add("mod-active");
                 document.getElementById("canvasSize").classList.remove("mod-active");
                 setObjectEditMode(true);
-                setActiveRadiobutton();
+
                 break;
 
             case "sizeCanvasButton":
@@ -121,7 +118,7 @@ function checkConsoleButtons() {
                 document.getElementById("sizeObj").classList.remove("mod-active");
                 document.getElementById("canvasSize").classList.add("mod-active");
                 setObjectEditMode(true);
-                setActiveRadiobutton();
+
                 break;
 
         }
