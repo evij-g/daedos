@@ -121,9 +121,9 @@ canvas {
     margin: 20px auto 10px auto;
     display: flex;
     /* height: 100%; */
-    width: 100%;
+    width: auto;
     max-width: 73vw;
-    max-height: 50%;
+    max-height: 50vh;
     image-rendering: optimizeSpeed;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
@@ -480,8 +480,9 @@ label.radio {
     canvas {
         margin: 0px;
         max-width: 84vw;
-        max-height: 60vh;
         align-self: center;
+        width: auto;
+        max-height: 45vh;
     }
 }
 
