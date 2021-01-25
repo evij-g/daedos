@@ -94,6 +94,7 @@ function checkConsoleButtons() {
                 document.getElementById("sizeObj").classList.remove("mod-active");
                 document.getElementById("canvasSize").classList.remove("mod-active");
                 setObjectEditMode(true);
+                setActiveRadiobutton();
                 break;
 
             case "moveObjButton":
@@ -102,6 +103,7 @@ function checkConsoleButtons() {
                 document.getElementById("sizeObj").classList.remove("mod-active");
                 document.getElementById("canvasSize").classList.remove("mod-active");
                 setObjectEditMode(true);
+                setActiveRadiobutton();
                 break;
 
             case "sizeObjButton":
@@ -110,6 +112,7 @@ function checkConsoleButtons() {
                 document.getElementById("sizeObj").classList.add("mod-active");
                 document.getElementById("canvasSize").classList.remove("mod-active");
                 setObjectEditMode(true);
+                setActiveRadiobutton();
                 break;
 
             case "sizeCanvasButton":
@@ -118,6 +121,7 @@ function checkConsoleButtons() {
                 document.getElementById("sizeObj").classList.remove("mod-active");
                 document.getElementById("canvasSize").classList.add("mod-active");
                 setObjectEditMode(true);
+                setActiveRadiobutton();
                 break;
 
         }
@@ -449,29 +453,6 @@ function ThingToDo() {
     modifierButtonsEvents(eve);
 }
 
-
-
-
-// function holdit(e) {
-//     var start = 500;
-
-//     var t;
-
-//     var repeat = function() {
-
-//         t = setTimeout(repeat, start);
-//         console.log(e);
-//     }
-
-//     e.mousedown = function() {
-//         console.log("mouse down");
-//         repeat();
-//     }
-
-//     e.mouseup = function() {
-//         clearTimeout(t);
-//     }
-// }
 
 
 function modifierButtonsEvents(event) {
