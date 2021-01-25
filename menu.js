@@ -53,7 +53,8 @@ function checkConsoleButtons() {
 
                 setObjectEditMode(false);
                 startAnimating();
-                appendCurrentURLtoHistory(updateURL());
+                updateURL();
+                appendCurrentURLtoHistory(window.location);
 
                 break;
 
