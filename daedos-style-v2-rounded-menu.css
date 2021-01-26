@@ -147,19 +147,23 @@ canvas {
     transition: 180ms all ease-in-out;
     background-color: rgb(var(--lightgrey));
     opacity: .8;
-    width: 340px;
+    width: 300px;
     margin-bottom: 40px;
     border-radius: 10px;
+    transform: scale(.85);
 }
 
 #daedos-menu h3 {
     color: white;
     font-size: 12pt;
-    width: 100%;
     background-color: rgb(var(--darkgrey));
     margin-top: 0px;
     margin-bottom: auto;
     line-height: 1.5;
+    border-radius: 3px;
+    border: 1px solid lightgray;
+    width: 100%;
+    border-radius: 5px;
 }
 
 #daedos-menu:hover {
@@ -176,29 +180,33 @@ canvas {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 15px 30px;
+    /*gap: 15px 30px;*/
 }
+
+#console {
+    grid-gap: 15px;
+}
+
+#console>button {}
+
+#daedos-menu {}
 
 #modifiers {
     display: grid;
-    overflow: visible;
+    overflow: hidden;
     grid-template-columns: 100%;
     grid-template-areas: "visible hidden hidden hidden";
 }
 
 #modifiers>div {
-    width: 100%;
     visibility: hidden;
     margin-top: 20px;
-    margin-bottom: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
 }
 
 #modifiers>#selectObj {
     visibility: hidden;
-    margin-bottom: 30px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr;
@@ -231,8 +239,10 @@ canvas {
 
 .cross {
     display: grid;
-    grid-template-columns: auto auto auto;
-    height: 150px;
+    grid-template-columns: 33% 33% 33%;
+    height: 120px;
+    justify-self: end;
+    width: 120px;
 }
 
 .cross>div:nth-child(5) {
@@ -245,21 +255,36 @@ canvas {
 
 .obj.add-remove {
     display: grid;
-    grid-gap: 10px 0px;
+    grid-gap: inherit;
+    direction: rtl;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    grid-template-rows: 1fr;
+    justify-items: center;
 }
 
 #selectObj>.obj.add-remove>button {
-    padding: 0;
-    margin: 0;
+    border-radius: 50%;
+    font-size: 1.4em;
+    height: 50px;
+    width: 50px;
+    line-height: 1.4;
 }
 
 #daedos-menu * button {
     border: none;
     background-color: rgb(var(--darkgrey));
-    background-size: 70%;
+    background-size: 50%;
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
+}
+
+#console>button {
+    /* height: 45px; */
+    padding: 30px;
+    cursor: pointer;
+    border-radius: 50%;
 }
 
 #modifiers * button {
@@ -272,20 +297,19 @@ canvas {
     padding: 10px;
 }
 
-#daedos-menu * button:hover {
-    box-shadow: white 2px 2px;
+#daedos-menu * button:hover,
+#daedos-menu * button:focus {
+    filter: contrast(160%);
 }
 
-button.active {
-    background-color: rgb(var(--lightgrey));
-    box-shadow: inset 2px 2px rgb(var(--darkgrey)), white 2px 2px;
+
+/* #modifiers * button:active, */
+
+#daedos-menu * button:active,
+#daedos-menu * button.active {
     color: white;
-}
-
-#console>button {
-    height: 45px;
-    padding: 20px;
-    cursor: pointer;
+    box-shadow: inset 0px 0px 7px #777;
+    filter: contrast(5);
 }
 
 
@@ -337,7 +361,7 @@ button.active {
 
 #obstacleForm {
     display: grid;
-    grid-gap: 20px;
+    grid-gap: inherit;
     justify-content: center;
     grid-template-columns: 1fr 1fr 1fr;
 }
@@ -363,11 +387,13 @@ label.radio {
 .radio {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 0.3em;
+    grid-gap: 5px;
     font-size: 2rem;
     color: rgb(var(--lightgrey));
     padding: 10px;
-    width: min-content;
+    align-items: center;
+    justify-items: center;
+    border-radius: 5px;
 }
 
 .radio:focus-within .radio__label {
@@ -403,6 +429,8 @@ label.radio {
     width: 0;
     height: 0;
     display: none;
+    margin: 0;
+    padding: 0;
 }
 
 .radio__input input:focus+.radio__control {
@@ -487,20 +515,6 @@ label.radio {
     }
 }
 
-#console {
-    grid-gap: 15px;
-}
-
-#console>button {
-    margin-left: 8px;
-    margin-right: 8px;
-    margin-bottom: 10px;
-}
-
-#daedos-menu {
-    transform: scale(.85);
-}
-
 .blink {
     animation: blinkingText 6s steps(1, end) infinite;
 }
@@ -517,15 +531,29 @@ label.radio {
     animation: blinkingBackgroundHeading 3s steps(1, end) infinite;
 }
 
-@keyframes blinkingBackground {
+
+/* @keyframes blinkingBackground {
     0%,
     50%,
     100% {
         background-color: rgb(var(--darkgrey));
+        box-shadow: inset 0px 0px 7px rgb(19, 19, 19);
     }
     25%,
     75% {
         background-color: var(--lightgrey-light);
+    }
+} */
+
+@keyframes blinkingBackground {
+    0%,
+    100% {
+        background-color: rgb(var(--darkgrey));
+        box-shadow: inset 0px 0px 7px rgba(96, 96, 96, 0.79);
+    }
+    50% {
+        background-color: #262626;
+        filter: invert(1);
     }
 }
 

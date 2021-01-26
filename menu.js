@@ -435,7 +435,7 @@ function toggleOn(e) {
     if (!isButton || e.target.id == "addObs" || e.target.id == "removeObs") {
         return;
     }
-    //e.stopPropagation();
+
     eve = e.target.id;
     mousedownFired = true;
     console.log("mousedownFired: " + e);
@@ -455,10 +455,7 @@ function toggleOff() {
 }
 
 function ThingToDo() {
-    // const isButton = e.target.nodeName === 'BUTTON';
-    // if (!isButton) {
-    //     return;
-    // }
+
     if (mousedownFired) {
         mousedownFired = false;
         return;
