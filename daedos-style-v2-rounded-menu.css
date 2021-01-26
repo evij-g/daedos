@@ -277,7 +277,7 @@ canvas {
     font-size: 1.4em;
     height: 50px;
     width: 50px;
-    line-height: 1.4;
+    line-height: normal;
     display: flex;
     align-items: center;
     justify-content: center;
