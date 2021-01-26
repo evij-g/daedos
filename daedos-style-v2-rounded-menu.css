@@ -184,7 +184,7 @@ canvas {
 }
 
 #console {
-    grid-gap: 15px;
+    grid-gap: 13px;
 }
 
 #console>button {}
@@ -246,11 +246,20 @@ canvas {
 }
 
 .cross>div:nth-child(5) {
-    background-color: white;
+    background-color: violet;
 }
 
 #canvasSize>.cross>div:nth-child(5) {
     background-color: black;
+}
+
+#daedos-menu * button {
+    border: none;
+    background-color: rgb(var(--darkgrey));
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
 }
 
 .obj.add-remove {
@@ -271,13 +280,12 @@ canvas {
     line-height: 1.4;
 }
 
-#daedos-menu * button {
-    border: none;
-    background-color: rgb(var(--darkgrey));
-    background-size: 50%;
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
+button#addObs {
+    background-color: #4a554a;
+}
+
+button#removeObs {
+    background-color: #534c4c;
 }
 
 #console>button {
