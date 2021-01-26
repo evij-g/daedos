@@ -290,10 +290,20 @@ function setSelectedObstacleRadioIndicatorColor(element) { //override the color 
     drawWalker();
 }
 
+
+
+
+
+
 function reloadMenu() {
     document.getElementById("obstacleForm").innerHTML = "";
     createObstaclesRadiobuttonsFromURL();
 }
+
+
+
+
+
 
 function noWayEvent() {
     console.log("NO WAY OUT");
@@ -372,6 +382,8 @@ function popUpMessage() {
 function checkModifierButtons() {
     const wrapper = document.getElementById("modifiers");
 
+
+
     // Listening for the mouse and touch events 
     wrapper.addEventListener("click", modifierButtonsEvents, false);
     wrapper.addEventListener("mousedown", toggleOn, false);
@@ -381,6 +393,8 @@ function checkModifierButtons() {
     wrapper.addEventListener("touchstart", toggleOn, false);
     wrapper.addEventListener("touchend", toggleOff, false);
     wrapper.addEventListener("pressHold", toggleOn, false);
+
+
 
 
 }
@@ -415,7 +429,10 @@ var mousedownFired = false;
 
 function toggleOn(e) {
     const isButton = e.target.nodeName === 'BUTTON';
-    if (!isButton) {
+
+
+    //disable toggle option on "add" or "remove" objects buttons
+    if (!isButton || e.target.id == "addObs" || e.target.id == "removeObs") {
         return;
     }
     //e.stopPropagation();
