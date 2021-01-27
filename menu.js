@@ -561,22 +561,17 @@ function modifierButtonsEvents(event) {
 function downloadCanvasAsImage() {
     let today = new Date();
     let dd = today.getDate();
-
     let mm = today.getMonth() + 1;
-
     let yyyy = today.getFullYear();
     today = mm + '-' + dd + '-' + yyyy;
+
     let filename = "daedos-" + uuidv4() + "_" + today + ".png";
-    console.log(filename);
-
     let downloadLink = document.getElementById('dlc');
-    downloadLink.setAttribute('download', filename);
-    let canvas = document.getElementById('daedos-canvas');
-    //base64String = canvas.toDataURL("image/png", 0.92);
-    canvas.toBlob(function(blob) {
 
-        let url = URL.createObjectURL(blob);
-        downloadLink.setAttribute('href', url);
+    var canvas = document.getElementById("daedos-canvas");
+    image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
-    });
+    downloadLink.download = filename;
+    downloadLink.href = image;
+
 }
