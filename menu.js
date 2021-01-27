@@ -117,7 +117,7 @@ function checkConsoleButtons() {
                 document.getElementById("positionObj").classList.remove("mod-active");
                 document.getElementById("sizeObj").classList.remove("mod-active");
                 document.getElementById("canvasSize").classList.add("mod-active");
-                setObjectEditMode(true);
+                // setObjectEditMode(true);
 
                 break;
 
@@ -549,7 +549,7 @@ function modifierButtonsEvents(event) {
 
 
     updateURL();
-    resetCanvas();
+    //resetCanvas();
 
     setObjectEditMode(true);
 
