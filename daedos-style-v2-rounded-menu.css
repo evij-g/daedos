@@ -254,7 +254,7 @@ canvas {
 }
 
 #canvasSize>a {
-    text-decoration: none;
+    text-decoration: none!important;
 }
 
 #canvasSize>a:hover>h3 {
