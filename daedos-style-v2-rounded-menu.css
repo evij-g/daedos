@@ -362,6 +362,14 @@ button#removeObs {
     background-image: url(icons/obj.png);
 }
 
+#removeObs {
+    background-image: url(icons/minus.png);
+}
+
+#addObs {
+    background-image: url(icons/plus.png);
+}
+
 #copyObs {
     background-image: url(icons/obj-copy.png);
 }
