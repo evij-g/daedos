@@ -97,9 +97,17 @@ function uuidv4() {
 
 
 
-function insertNewObstacleIntoArray() {
-    let obsWidth = Math.trunc(canvasWidthMultiple * (10 / 100)); // 5%
-    let obsHeight = Math.trunc(canvasHeightMultiple * (10 / 100)); //5%
+function insertNewObstacleIntoArray(obs) {
+    let obstacle = obs;
+
+    try { //this is for copying the reference object and create a new one
+
+        obstacle = Object.assign({}, obs);
+
+    } catch (error) {
+        console.log("insert a new object");
+    }
+
     console.log("obstacleArrayLength: " + obstacleArray.length);
 
 
@@ -114,30 +122,45 @@ function insertNewObstacleIntoArray() {
     // so that only the new inserted element will be the selected one
 
     let newIndex = uuidv4();
-    let basicObstacle = {
+
+    if (obstacle == undefined) {
+        let obsWidth = Math.trunc(canvasWidthMultiple * (10 / 100)); // 5%
+        let obsHeight = Math.trunc(canvasHeightMultiple * (10 / 100)); //5%
+        obstacle = {
 
 
-        obsIndex: newIndex, //maybe generate a random number
-        obsX: Math.trunc(canvasWidthMultiple / 2 - obsWidth / 2),
-        obsY: Math.trunc(canvasHeightMultiple / 2 - obsHeight / 2),
-        obsWidth: obsWidth,
-        obsHeight: obsHeight,
-        obsColor: "white", //selected-
-        type: "obs",
-        selected: true
-    };
-    obstacleArray.push(basicObstacle);
-    console.log("inserted new Object with Identifier: " + basicObstacle.obsIndex);
+            obsIndex: newIndex, //maybe generate a random number
+            obsX: Math.trunc(canvasWidthMultiple / 2 - obsWidth / 2),
+            obsY: Math.trunc(canvasHeightMultiple / 2 - obsHeight / 2),
+            obsWidth: obsWidth,
+            obsHeight: obsHeight,
+            obsColor: "white", //selected-
+            type: "obs",
+            selected: true
+        };
+    }
+    obstacle.obsIndex = newIndex;
+    obstacle.selected = true;
+
+
+    console.table(obstacleArray);
+    console.log("the new object:");
+    console.table(obstacle);
+
+    obstacleArray.push(obstacle);
+    console.log("inserted new Object with Identifier: " + obstacle.obsIndex);
 
 
 
 
     //set the selected Object to the new inserted one
-    selectedObstacleIdentifier = newIndex;
+    selectedObstacleIdentifier = obstacle.obsIndex;
+    selectedObstacleArrayIndex = obstacleArray.length;
     console.log(selectedObstacleIdentifier);
 
-    return basicObstacle;
+    return obstacle;
 }
+
 
 
 function findIndexOfSelectedObstacleInArray(selected) {

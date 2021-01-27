@@ -273,8 +273,7 @@ canvas {
 .obj.add-remove {
     display: grid;
     grid-gap: inherit;
-    direction: rtl;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     grid-template-rows: 1fr;
     justify-items: center;
@@ -283,8 +282,8 @@ canvas {
 #selectObj>.obj.add-remove>button {
     border-radius: 50%;
     font-size: 1.4em;
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
     line-height: normal;
     display: flex;
     align-items: center;
@@ -361,6 +360,10 @@ button#removeObs {
 
 #selectObjButton {
     background-image: url(icons/obj.png);
+}
+
+#copyObs {
+    background-image: url(icons/obj-copy.png);
 }
 
 #moveObjButton {

@@ -432,7 +432,7 @@ function toggleOn(e) {
 
 
     //disable toggle option on "add" or "remove" objects buttons
-    if (!isButton || e.target.id == "addObs" || e.target.id == "removeObs") {
+    if (!isButton || e.target.id == "addObs" || e.target.id == "removeObs" || e.target.id == "copyObs") {
         return;
     }
 
@@ -485,6 +485,7 @@ function modifierButtonsEvents(event) {
 
             insertOneNewRadiobutton(insertNewObstacleIntoArray());
             setActiveRadiobutton();
+            console.table(obstacleArray);
             break;
 
         case "removeObs":
@@ -493,6 +494,11 @@ function modifierButtonsEvents(event) {
             setActiveRadiobutton();
             break;
 
+        case "copyObs":
+            let currentObject = returnSelectedObstacleFromArray(selectedObstacleIdentifier);
+            insertOneNewRadiobutton(insertNewObstacleIntoArray(currentObject));
+            setActiveRadiobutton();
+            break;
 
 
         case "upPosButton":
