@@ -100,9 +100,11 @@ function uuidv4() {
 function insertNewObstacleIntoArray(obs) {
     let obstacle = obs;
 
+
     try { //this is for copying the reference object and create a new one
 
         obstacle = Object.assign({}, obs);
+        console.log(obs);
 
     } catch (error) {
         console.log("insert a new object");
@@ -123,7 +125,7 @@ function insertNewObstacleIntoArray(obs) {
 
     let newIndex = uuidv4();
 
-    if (obstacle == undefined) {
+    if (obs == undefined) {
         let obsWidth = Math.trunc(canvasWidthMultiple * (10 / 100)); // 5%
         let obsHeight = Math.trunc(canvasHeightMultiple * (10 / 100)); //5%
         obstacle = {
